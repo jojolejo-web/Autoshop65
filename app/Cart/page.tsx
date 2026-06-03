@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/metadata";
 import { confirmCartCheckout, findCart } from "./action";
 import CartPage from "./CartPage";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Panier",
+  description: "Consultez votre panier et finalisez votre commande chez Autoshop 65.",
+  path: "/Cart",
+  noIndex: true,
+});
 
 type CartPageProps = {
   searchParams: Promise<{

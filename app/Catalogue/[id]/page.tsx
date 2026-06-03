@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { addToCart, findProductId } from "../action";
@@ -21,12 +22,60 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { siteConfig } from "@/lib/metadata";
 
 type ProductPageProps = {
   params: Promise<{
     id: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+}: ProductPageProps): Promise<Metadata> {
+  const id = Number((await params).id);
+
+  if (Number.isNaN(id)) {
+    return { title: "Produit introuvable" };
+  }
+
+  const product = await findProductId({ id });
+
+  if (!product) {
+    return { title: "Produit introuvable" };
+  }
+
+  const image = product.image ? `/${product.image}` : siteConfig.logo;
+  const description =
+    product.productDescription ??
+    `Decouvrez ${product.productName} en piece d'occasion chez Autoshop 65.`;
+
+  return {
+    title: product.productName,
+    description,
+    alternates: {
+      canonical: `${siteConfig.url}/Catalogue/${product.id}`,
+    },
+    openGraph: {
+      title: product.productName,
+      description,
+      url: `${siteConfig.url}/Catalogue/${product.id}`,
+      type: "website",
+      images: [
+        {
+          url: image,
+          alt: product.productName,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.productName,
+      description,
+      images: [image],
+    },
+  };
+}
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const idConvert = (await params).id;

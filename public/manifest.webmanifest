@@ -1,0 +1,16 @@
+{
+  "name": "Autoshop 65",
+  "short_name": "Autoshop65",
+  "description": "Station service, mecanique, retrait colis et pieces d'occasion a Tarbes.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "icons": [
+    {
+      "src": "/logoAutoshop65.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

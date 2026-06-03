@@ -1,10 +1,19 @@
+import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 import { authOptions } from "@/auth";
+import { buildPageMetadata } from "@/lib/metadata";
 
 import { findUser } from "./action";
 import ProfilInterface from "./ProfilInterface";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Mon compte",
+  description: "Consultez votre compte et vos commandes Autoshop 65.",
+  path: "/Profil",
+  noIndex: true,
+});
 
 export default async function ProfilPage({
   searchParams,

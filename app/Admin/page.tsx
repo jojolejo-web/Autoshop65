@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/metadata";
 import AdminInterface from "./AdminInterface";
 import { getAdminDashboardData } from "./action";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Administration",
+  description: "Espace administration Autoshop 65.",
+  path: "/Admin",
+  noIndex: true,
+});
 
 export default async function AdminPage() {
   const data = await getAdminDashboardData();

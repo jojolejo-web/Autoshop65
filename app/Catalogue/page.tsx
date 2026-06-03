@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -6,6 +7,14 @@ import { countProducts, findProduct } from "./action";
 import CategorieCard from "./CategoriesCard";
 import { isCatalogueCategory, type CatalogueCategory } from "./categories";
 import Product from "./Product";
+import { buildPageMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Catalogue de pieces d'occasion",
+  description:
+    "Explorez notre catalogue de pieces detachees d'occasion pour moteur, carrosserie, freins et suspension.",
+  path: "/Catalogue",
+});
 
 type CatalogueProps = {
   searchParams: Promise<{
