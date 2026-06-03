@@ -1,6 +1,7 @@
 export const catalogueCategories = [
   { value: "carroserie", label: "Carroserie" },
   { value: "moteur", label: "Moteur" },
+  { value: "freins", label: "Freins" },
   { value: "suspension", label: "Suspension" },
 ] as const;
 

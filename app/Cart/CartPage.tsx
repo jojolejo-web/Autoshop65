@@ -74,6 +74,9 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
           {cart.items.length > 0 ? (
             cart.items.map((item) => {
               const deleteItemAction = deleteToCart.bind(null, item.id);
+              const submitDeleteItem = async () => {
+                await deleteItemAction();
+              };
 
               return (
                 <CardContent key={item.id} className="space-y-3 p-4 md:p-6">
@@ -90,7 +93,7 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
                           <CardTitle className="text-lg">
                             {item.product.productName}
                           </CardTitle>
-                          <form action={deleteItemAction} className="sm:hidden block">
+                          <form action={submitDeleteItem} className="sm:hidden block">
                             <Button
                               className="border-none p-0 hover:bg-transparent "
                               variant="outline"
@@ -131,7 +134,7 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
                         </p>
                       </div>
                     </div>
-                    <form action={deleteItemAction} className="md:block hidden">
+                    <form action={submitDeleteItem} className="md:block hidden">
                       <Button
                         className="border-none p-0 hover:bg-transparent "
                         variant="outline"

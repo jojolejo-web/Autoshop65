@@ -209,6 +209,19 @@ export async function addProductImage(productId: number, formData: FormData) {
 }
 
 export async function addToCart(productId: number) {
+  type AddToCartResult =
+    | { success: false; message: string }
+    | {
+        success: true;
+        cartItem: {
+          id: number;
+          productId: number;
+          cartId: number;
+          quantity: number;
+        };
+        productId: number;
+      };
+
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -218,13 +231,13 @@ export async function addToCart(productId: number) {
     where: { email: session.user.email },
   });
   if (!user) {
-    return { success: false, message: "Utilisateur introuvable" };
+    return { success: false, message: "Utilisateur introuvable" } satisfies AddToCartResult;
   }
   if (!productId) {
-    return { success: false, message: "Produit invalide" };
+    return { success: false, message: "Produit invalide" } satisfies AddToCartResult;
   }
 
-  const result = await prisma.$transaction(async (tx) => {
+  const result: AddToCartResult = await prisma.$transaction(async (tx) => {
     const product = await tx.product.findUnique({
       where: { id: productId },
       select: { id: true, stock: true },
