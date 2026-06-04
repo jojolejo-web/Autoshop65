@@ -19,6 +19,7 @@ export default async function AdminPage() {
       products={data.products.map((product) => ({
         id: product.id,
         productName: product.productName,
+        reference: product.reference,
         price: product.price,
         stock: product.stock,
         image: product.image,

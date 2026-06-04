@@ -41,6 +41,7 @@ export type ProductSumAggregateOutputType = {
 export type ProductMinAggregateOutputType = {
   id: number | null
   productName: string | null
+  reference: string | null
   productDescription: string | null
   category: $Enums.ProductCategory | null
   normalizedName: string | null
@@ -53,6 +54,7 @@ export type ProductMinAggregateOutputType = {
 export type ProductMaxAggregateOutputType = {
   id: number | null
   productName: string | null
+  reference: string | null
   productDescription: string | null
   category: $Enums.ProductCategory | null
   normalizedName: string | null
@@ -65,6 +67,7 @@ export type ProductMaxAggregateOutputType = {
 export type ProductCountAggregateOutputType = {
   id: number
   productName: number
+  reference: number
   productDescription: number
   category: number
   normalizedName: number
@@ -91,6 +94,7 @@ export type ProductSumAggregateInputType = {
 export type ProductMinAggregateInputType = {
   id?: true
   productName?: true
+  reference?: true
   productDescription?: true
   category?: true
   normalizedName?: true
@@ -103,6 +107,7 @@ export type ProductMinAggregateInputType = {
 export type ProductMaxAggregateInputType = {
   id?: true
   productName?: true
+  reference?: true
   productDescription?: true
   category?: true
   normalizedName?: true
@@ -115,6 +120,7 @@ export type ProductMaxAggregateInputType = {
 export type ProductCountAggregateInputType = {
   id?: true
   productName?: true
+  reference?: true
   productDescription?: true
   category?: true
   normalizedName?: true
@@ -214,6 +220,7 @@ export type ProductGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ProductGroupByOutputType = {
   id: number
   productName: string
+  reference: string | null
   productDescription: string | null
   category: $Enums.ProductCategory
   normalizedName: string | null
@@ -249,6 +256,7 @@ export type ProductWhereInput = {
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
   id?: Prisma.IntFilter<"Product"> | number
   productName?: Prisma.StringFilter<"Product"> | string
+  reference?: Prisma.StringNullableFilter<"Product"> | string | null
   productDescription?: Prisma.StringNullableFilter<"Product"> | string | null
   category?: Prisma.EnumProductCategoryFilter<"Product"> | $Enums.ProductCategory
   normalizedName?: Prisma.StringNullableFilter<"Product"> | string | null
@@ -265,6 +273,7 @@ export type ProductWhereInput = {
 export type ProductOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   productName?: Prisma.SortOrder
+  reference?: Prisma.SortOrderInput | Prisma.SortOrder
   productDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   category?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -284,6 +293,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProductWhereInput[]
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
   productName?: Prisma.StringFilter<"Product"> | string
+  reference?: Prisma.StringNullableFilter<"Product"> | string | null
   productDescription?: Prisma.StringNullableFilter<"Product"> | string | null
   category?: Prisma.EnumProductCategoryFilter<"Product"> | $Enums.ProductCategory
   normalizedName?: Prisma.StringNullableFilter<"Product"> | string | null
@@ -300,6 +310,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
 export type ProductOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   productName?: Prisma.SortOrder
+  reference?: Prisma.SortOrderInput | Prisma.SortOrder
   productDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   category?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -320,6 +331,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ProductScalarWhereWithAggregatesInput | Prisma.ProductScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Product"> | number
   productName?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  reference?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   productDescription?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   category?: Prisma.EnumProductCategoryWithAggregatesFilter<"Product"> | $Enums.ProductCategory
   normalizedName?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
@@ -331,6 +343,7 @@ export type ProductScalarWhereWithAggregatesInput = {
 
 export type ProductCreateInput = {
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -347,6 +360,7 @@ export type ProductCreateInput = {
 export type ProductUncheckedCreateInput = {
   id?: number
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -362,6 +376,7 @@ export type ProductUncheckedCreateInput = {
 
 export type ProductUpdateInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -378,6 +393,7 @@ export type ProductUpdateInput = {
 export type ProductUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -394,6 +410,7 @@ export type ProductUncheckedUpdateInput = {
 export type ProductCreateManyInput = {
   id?: number
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -405,6 +422,7 @@ export type ProductCreateManyInput = {
 
 export type ProductUpdateManyMutationInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -417,6 +435,7 @@ export type ProductUpdateManyMutationInput = {
 export type ProductUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -434,6 +453,7 @@ export type ProductScalarRelationFilter = {
 export type ProductCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productName?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   productDescription?: Prisma.SortOrder
   category?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrder
@@ -452,6 +472,7 @@ export type ProductAvgOrderByAggregateInput = {
 export type ProductMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productName?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   productDescription?: Prisma.SortOrder
   category?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrder
@@ -464,6 +485,7 @@ export type ProductMaxOrderByAggregateInput = {
 export type ProductMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productName?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   productDescription?: Prisma.SortOrder
   category?: Prisma.SortOrder
   normalizedName?: Prisma.SortOrder
@@ -541,6 +563,7 @@ export type ProductUpdateOneRequiredWithoutImagesNestedInput = {
 
 export type ProductCreateWithoutCartItemsInput = {
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -556,6 +579,7 @@ export type ProductCreateWithoutCartItemsInput = {
 export type ProductUncheckedCreateWithoutCartItemsInput = {
   id?: number
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -586,6 +610,7 @@ export type ProductUpdateToOneWithWhereWithoutCartItemsInput = {
 
 export type ProductUpdateWithoutCartItemsInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -601,6 +626,7 @@ export type ProductUpdateWithoutCartItemsInput = {
 export type ProductUncheckedUpdateWithoutCartItemsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -615,6 +641,7 @@ export type ProductUncheckedUpdateWithoutCartItemsInput = {
 
 export type ProductCreateWithoutOrderItemsInput = {
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -630,6 +657,7 @@ export type ProductCreateWithoutOrderItemsInput = {
 export type ProductUncheckedCreateWithoutOrderItemsInput = {
   id?: number
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -660,6 +688,7 @@ export type ProductUpdateToOneWithWhereWithoutOrderItemsInput = {
 
 export type ProductUpdateWithoutOrderItemsInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -675,6 +704,7 @@ export type ProductUpdateWithoutOrderItemsInput = {
 export type ProductUncheckedUpdateWithoutOrderItemsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -689,6 +719,7 @@ export type ProductUncheckedUpdateWithoutOrderItemsInput = {
 
 export type ProductCreateWithoutFavorisInput = {
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -704,6 +735,7 @@ export type ProductCreateWithoutFavorisInput = {
 export type ProductUncheckedCreateWithoutFavorisInput = {
   id?: number
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -734,6 +766,7 @@ export type ProductUpdateToOneWithWhereWithoutFavorisInput = {
 
 export type ProductUpdateWithoutFavorisInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -749,6 +782,7 @@ export type ProductUpdateWithoutFavorisInput = {
 export type ProductUncheckedUpdateWithoutFavorisInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -763,6 +797,7 @@ export type ProductUncheckedUpdateWithoutFavorisInput = {
 
 export type ProductCreateWithoutImagesInput = {
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -778,6 +813,7 @@ export type ProductCreateWithoutImagesInput = {
 export type ProductUncheckedCreateWithoutImagesInput = {
   id?: number
   productName: string
+  reference?: string | null
   productDescription?: string | null
   category?: $Enums.ProductCategory
   normalizedName?: string | null
@@ -808,6 +844,7 @@ export type ProductUpdateToOneWithWhereWithoutImagesInput = {
 
 export type ProductUpdateWithoutImagesInput = {
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -823,6 +860,7 @@ export type ProductUpdateWithoutImagesInput = {
 export type ProductUncheckedUpdateWithoutImagesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   productName?: Prisma.StringFieldUpdateOperationsInput | string
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.EnumProductCategoryFieldUpdateOperationsInput | $Enums.ProductCategory
   normalizedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -896,6 +934,7 @@ export type ProductCountOutputTypeCountOrderItemsArgs<ExtArgs extends runtime.Ty
 export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   productName?: boolean
+  reference?: boolean
   productDescription?: boolean
   category?: boolean
   normalizedName?: boolean
@@ -913,6 +952,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   productName?: boolean
+  reference?: boolean
   productDescription?: boolean
   category?: boolean
   normalizedName?: boolean
@@ -925,6 +965,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   productName?: boolean
+  reference?: boolean
   productDescription?: boolean
   category?: boolean
   normalizedName?: boolean
@@ -937,6 +978,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ProductSelectScalar = {
   id?: boolean
   productName?: boolean
+  reference?: boolean
   productDescription?: boolean
   category?: boolean
   normalizedName?: boolean
@@ -946,7 +988,7 @@ export type ProductSelectScalar = {
   stock?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productName" | "productDescription" | "category" | "normalizedName" | "normalizedDescription" | "image" | "price" | "stock", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productName" | "reference" | "productDescription" | "category" | "normalizedName" | "normalizedDescription" | "image" | "price" | "stock", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   images?: boolean | Prisma.Product$imagesArgs<ExtArgs>
   cartItems?: boolean | Prisma.Product$cartItemsArgs<ExtArgs>
@@ -968,6 +1010,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     productName: string
+    reference: string | null
     productDescription: string | null
     category: $Enums.ProductCategory
     normalizedName: string | null
@@ -1404,6 +1447,7 @@ export interface Prisma__ProductClient<T, Null = never, ExtArgs extends runtime.
 export interface ProductFieldRefs {
   readonly id: Prisma.FieldRef<"Product", 'Int'>
   readonly productName: Prisma.FieldRef<"Product", 'String'>
+  readonly reference: Prisma.FieldRef<"Product", 'String'>
   readonly productDescription: Prisma.FieldRef<"Product", 'String'>
   readonly category: Prisma.FieldRef<"Product", 'ProductCategory'>
   readonly normalizedName: Prisma.FieldRef<"Product", 'String'>

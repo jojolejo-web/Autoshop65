@@ -1237,6 +1237,7 @@ export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof Post
 export const ProductScalarFieldEnum = {
   id: 'id',
   productName: 'productName',
+  reference: 'reference',
   productDescription: 'productDescription',
   category: 'category',
   normalizedName: 'normalizedName',

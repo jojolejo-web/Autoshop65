@@ -35,6 +35,7 @@ type AdminInterfaceProps = {
 type AdminProduct = {
   id: number;
   productName: string;
+  reference: string | null;
   price: number;
   stock: number;
   image: string | null;
@@ -452,6 +453,21 @@ export default function AdminInterface({
                     </div>
                     <div className="grid gap-2">
                       <label
+                        htmlFor="admin-product-reference"
+                        className="text-sm font-medium text-zinc-700"
+                      >
+                        Reference
+                      </label>
+                      <input
+                        id="admin-product-reference"
+                        type="text"
+                        name="reference"
+                        placeholder="Ex. REF-1234"
+                        className="w-full rounded-md border border-red-100 bg-white px-4 py-3"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <label
                         htmlFor="admin-product-category"
                         className="text-sm font-medium text-zinc-700"
                       >
@@ -598,6 +614,9 @@ export default function AdminInterface({
                           <div>
                             <p className="font-medium text-zinc-900">{product.productName}</p>
                             <p className="text-xs text-zinc-500">ID : {product.id}</p>
+                            <p className="text-xs text-zinc-500">
+                              Reference : {product.reference || "Non renseignee"}
+                            </p>
                             <p className="text-xs text-zinc-500">
                               Categorie : {getCategoryLabel(product.category)}
                             </p>

@@ -113,6 +113,7 @@ export async function createProduct(formData: FormData) {
   await requireAdminSession();
 
   const productName = String(formData.get("productName") ?? "").trim();
+  const reference = String(formData.get("reference") ?? "").trim();
   const productDescription = String(
     formData.get("productDescription") ?? "",
   ).trim();
@@ -150,6 +151,7 @@ export async function createProduct(formData: FormData) {
   const product = await prisma.product.create({
     data: {
       productName,
+      reference: reference || null,
       productDescription: productDescription || null,
       category: categoryValue,
       image: image || null,

@@ -31,6 +31,7 @@ type CartItemType = {
 type ProductType = {
   id: number;
   productName: string;
+  reference: string | null;
   productDescription: string | null;
   price: number;
   stock: number;
@@ -108,7 +109,9 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
                         <CardDescription>
                           {item.product.productDescription}
                         </CardDescription>
-                        <CardDescription>Ref :</CardDescription>
+                        <CardDescription>
+                          Ref : {item.product.reference || "Non renseignee"}
+                        </CardDescription>
                         <CardDescription>
                           <Button
                             variant="outline"

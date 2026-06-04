@@ -14,6 +14,7 @@ type ProductProps = {
   product: {
     id: number;
     productName: string;
+    reference: string | null;
     productDescription: string | null;
     price: number;
     stock: number;

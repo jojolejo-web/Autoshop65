@@ -20,6 +20,13 @@ type UpdateProductResult =
   | { success: false; message: string }
   | { success: true; product: { id: number; price: number; stock: number } };
 
+function formatPrice(amount: number) {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  }).format(amount / 100);
+}
+
 export async function getAdminDashboardData() {
   await requireAdminSession();
 
@@ -106,6 +113,7 @@ export async function getAdminDashboardData() {
         select: {
           id: true,
           productName: true,
+          reference: true,
           price: true,
           stock: true,
           image: true,
@@ -135,14 +143,34 @@ export async function getAdminDashboardData() {
 function renderPreparedOrderEmail(params: {
   customerName: string;
   orderId: number;
+  totalAmount: number;
+  items: {
+    quantity: number;
+    unitPrice: number;
+    productNameSnapshot: string;
+  }[];
 }) {
-  const { customerName, orderId } = params;
+  const { customerName, orderId, totalAmount, items } = params;
+  const itemsHtml = items
+    .map(
+      (item) => `
+        <li style="margin-bottom:8px;">
+          ${item.productNameSnapshot} x${item.quantity} - ${formatPrice(item.unitPrice * item.quantity)}
+        </li>
+      `,
+    )
+    .join("");
 
   return `
     <div style="font-family: Arial, sans-serif; padding: 24px; color: #18181b;">
       <h1 style="color: #b91c1c; margin-bottom: 16px;">Commande preparee</h1>
       <p>Bonjour ${customerName},</p>
       <p>Votre commande #${orderId} est preparee et finalisee.</p>
+      <p style="margin-top: 16px; font-weight: 700;">Pieces commandees :</p>
+      <ul style="padding-left: 20px; margin: 8px 0 16px;">
+        ${itemsHtml}
+      </ul>
+      <p style="margin: 0 0 16px;"><strong>Montant paye :</strong> ${formatPrice(totalAmount)}</p>
       <p>Merci pour votre confiance.</p>
       <p style="margin-top: 24px;">Autoshop 65</p>
     </div>
@@ -166,6 +194,16 @@ export async function markOrderPrepared(
           email: true,
           name: true,
           surName: true,
+        },
+      },
+      items: {
+        orderBy: {
+          id: "asc",
+        },
+        select: {
+          quantity: true,
+          unitPrice: true,
+          productNameSnapshot: true,
         },
       },
       transactions: {
@@ -207,8 +245,25 @@ export async function markOrderPrepared(
     html: renderPreparedOrderEmail({
       customerName,
       orderId: order.id,
+      totalAmount: order.totalAmount,
+      items: order.items,
     }),
-    text: `Bonjour ${customerName}, votre commande #${order.id} est preparee et finalisee.`,
+    text: [
+      `Bonjour ${customerName},`,
+      "",
+      `Votre commande #${order.id} est preparee et finalisee.`,
+      "",
+      "Pieces commandees :",
+      ...order.items.map(
+        (item) =>
+          `- ${item.productNameSnapshot} x${item.quantity} - ${formatPrice(item.unitPrice * item.quantity)}`,
+      ),
+      "",
+      `Montant paye : ${formatPrice(order.totalAmount)}`,
+      "",
+      "Merci pour votre confiance.",
+      "Autoshop 65",
+    ].join("\n"),
   });
 
   if (emailResult.error) {

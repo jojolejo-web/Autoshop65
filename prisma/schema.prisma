@@ -66,6 +66,7 @@ enum ProductCategory {
 model Product {
     id                 Int            @id @default(autoincrement())
     productName        String
+    reference          String?
     productDescription String?
     category           ProductCategory @default(carroserie)
 
