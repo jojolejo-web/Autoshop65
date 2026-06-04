@@ -7,7 +7,15 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+function getStripeClient() {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+
+  if (!secretKey) {
+    throw new Error("STRIPE_SECRET_KEY manquante");
+  }
+
+  return new Stripe(secretKey);
+}
 
 export async function findCart() {
   const session = await getServerSession(authOptions);
@@ -56,6 +64,7 @@ export async function confirmCartCheckout(sessionId: string) {
     throw new Error("Utilisateur introuvable");
   }
 
+  const stripe = getStripeClient();
   const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
 
   if (checkoutSession.metadata?.userId !== String(user.id)) {
