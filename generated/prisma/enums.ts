@@ -12,7 +12,8 @@
 export const ProductCategory = {
   carroserie: 'carroserie',
   moteur: 'moteur',
-  freins: 'freins',
+  transmission: 'transmission',
+  eclairage: 'eclairage',
   suspension: 'suspension'
 } as const
 

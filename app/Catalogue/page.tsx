@@ -12,7 +12,7 @@ import { buildPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = buildPageMetadata({
   title: "Catalogue de pieces d'occasion",
   description:
-    "Explorez notre catalogue de pieces detachees d'occasion pour moteur, carrosserie, freins et suspension.",
+    "Explorez notre catalogue de pieces detachees d'occasion pour moteur, carrosserie, transmission, eclairage et suspension.",
   path: "/Catalogue",
 });
 

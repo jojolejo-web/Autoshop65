@@ -419,68 +419,123 @@ export default function AdminInterface({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form action={createProductFromAdmin} className="grid gap-4">
-                    <input
-                      type="text"
-                      name="productName"
-                      placeholder="Nom de la piece"
-                      className="rounded-md border border-red-100 bg-white px-4 py-3"
-                      required
-                    />
-                    <textarea
-                      name="productDescription"
-                      placeholder="Description"
-                      className="min-h-28 rounded-md border border-red-100 bg-white px-4 py-3"
-                    />
-                    <select
-                      name="category"
-                      defaultValue="carroserie"
-                      className="rounded-md border border-red-100 bg-white px-4 py-3"
-                      required
-                    >
-                      {catalogueCategories.map((category) => (
-                        <option key={category.value} value={category.value}>
-                          {category.label}
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      type="number"
-                      name="price"
-                      placeholder="Prix en centimes"
-                      className="rounded-md border border-red-100 bg-white px-4 py-3"
-                      required
-                    />
-                    <input
-                      type="number"
-                      name="stock"
-                      placeholder="Stock disponible"
-                      className="rounded-md border border-red-100 bg-white px-4 py-3"
-                      required
-                    />
+                  <form action={createProductFromAdmin} className="grid gap-5">
                     <div className="grid gap-2">
-                      <label className="text-sm font-medium text-zinc-700">
+                      <label
+                        htmlFor="admin-product-name"
+                        className="text-sm font-medium text-zinc-700"
+                      >
+                        Nom de la piece
+                      </label>
+                      <input
+                        id="admin-product-name"
+                        type="text"
+                        name="productName"
+                        placeholder="Ex. Feu arriere Clio 2"
+                        className="w-full rounded-md border border-red-100 bg-white px-4 py-3"
+                        required
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <label
+                        htmlFor="admin-product-description"
+                        className="text-sm font-medium text-zinc-700"
+                      >
+                        Description
+                      </label>
+                      <textarea
+                        id="admin-product-description"
+                        name="productDescription"
+                        placeholder="Etat, compatibilite, remarques..."
+                        className="min-h-28 w-full rounded-md border border-red-100 bg-white px-4 py-3"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <label
+                        htmlFor="admin-product-category"
+                        className="text-sm font-medium text-zinc-700"
+                      >
+                        Categorie
+                      </label>
+                      <select
+                        id="admin-product-category"
+                        name="category"
+                        defaultValue="carroserie"
+                        className="w-full rounded-md border border-red-100 bg-white px-4 py-3"
+                        required
+                      >
+                        {catalogueCategories.map((category) => (
+                          <option key={category.value} value={category.value}>
+                            {category.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="grid gap-2">
+                        <label
+                          htmlFor="admin-product-price"
+                          className="text-sm font-medium text-zinc-700"
+                        >
+                          Prix en centimes
+                        </label>
+                        <input
+                          id="admin-product-price"
+                          type="number"
+                          name="price"
+                          placeholder="Ex. 2500"
+                          className="w-full rounded-md border border-red-100 bg-white px-4 py-3"
+                          required
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <label
+                          htmlFor="admin-product-stock"
+                          className="text-sm font-medium text-zinc-700"
+                        >
+                          Stock disponible
+                        </label>
+                        <input
+                          id="admin-product-stock"
+                          type="number"
+                          name="stock"
+                          placeholder="Ex. 1"
+                          className="w-full rounded-md border border-red-100 bg-white px-4 py-3"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="grid gap-2">
+                      <label
+                        htmlFor="admin-product-image"
+                        className="text-sm font-medium text-zinc-700"
+                      >
                         Image principale
                       </label>
                       <input
+                        id="admin-product-image"
                         type="file"
                         name="imageFile"
                         accept="image/*"
                         capture="environment"
-                        className="rounded-md border border-red-100 bg-white px-4 py-3"
+                        className="w-full rounded-md border border-red-100 bg-white px-4 py-3 text-sm"
                       />
                     </div>
                     <div className="grid gap-2">
-                      <label className="text-sm font-medium text-zinc-700">
+                      <label
+                        htmlFor="admin-product-gallery"
+                        className="text-sm font-medium text-zinc-700"
+                      >
                         Photos de presentation
                       </label>
                       <input
+                        id="admin-product-gallery"
                         type="file"
                         name="galleryFiles"
                         accept="image/*"
                         capture="environment"
                         multiple
-                        className="rounded-md border border-red-100 bg-white px-4 py-3"
+                        className="w-full rounded-md border border-red-100 bg-white px-4 py-3 text-sm"
                       />
                       <p className="text-sm text-zinc-500">
                         Jusqu&apos;a 5 images de galerie, ajoutees directement a la piece.

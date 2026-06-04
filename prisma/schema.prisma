@@ -58,7 +58,8 @@ model Post {
 enum ProductCategory {
   carroserie
   moteur
-  freins
+  transmission
+  eclairage
   suspension
 }
 
