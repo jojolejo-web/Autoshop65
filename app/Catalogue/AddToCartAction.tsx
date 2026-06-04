@@ -5,11 +5,14 @@ import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
+import { addToCart } from "./action";
+
 type AddToCartResult =
   | { success: false; message: string }
   | { success: true; cartItem: unknown; productId: number };
+
 type AddToCartActionProps = {
-  action: () => Promise<AddToCartResult>;
+  productId: number;
   children: ReactNode;
   className?: string;
   buttonClassName?: string;
@@ -25,7 +28,7 @@ type AddToCartActionProps = {
 type ButtonState = "idle" | "loading" | "success";
 
 export default function AddToCartAction({
-  action,
+  productId,
   children,
   className,
   buttonClassName,
@@ -65,7 +68,7 @@ export default function AddToCartAction({
 
     try {
       const [result] = await Promise.all([
-        action(),
+        addToCart(productId) as Promise<AddToCartResult>,
         new Promise((resolve) => setTimeout(resolve, 2000)),
       ]);
 

@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { Heart, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { addToCart } from "./action";
 import AddToCartAction from "./AddToCartAction";
 
 type ProductProps = {
@@ -22,8 +21,6 @@ type ProductProps = {
   };
 };
 export default function Product({ product }: ProductProps) {
-  const addToCartWithId = addToCart.bind(null, product.id);
-
   return (
     <main>
       <Card className="pt-0 ring-0 rounded-none">
@@ -48,7 +45,7 @@ export default function Product({ product }: ProductProps) {
             <Heart />
           </Button>
           <AddToCartAction
-            action={addToCartWithId}
+            productId={product.id}
             className="flex-1"
             buttonClassName="w-full"
             variant="destructive"

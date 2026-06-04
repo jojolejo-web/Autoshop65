@@ -75,6 +75,8 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
             cart.items.map((item) => {
               const deleteItemAction = deleteToCart.bind(null, item.id);
               const submitDeleteItem = async () => {
+                "use server";
+
                 await deleteItemAction();
               };
 
@@ -93,7 +95,7 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
                           <CardTitle className="text-lg">
                             {item.product.productName}
                           </CardTitle>
-                          <form action={submitDeleteItem} className="sm:hidden block">
+                          <form action={submitDeleteItem} className="block sm:hidden">
                             <Button
                               className="border-none p-0 hover:bg-transparent "
                               variant="outline"
@@ -134,7 +136,7 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
                         </p>
                       </div>
                     </div>
-                    <form action={submitDeleteItem} className="md:block hidden">
+                    <form action={submitDeleteItem} className="hidden md:block">
                       <Button
                         className="border-none p-0 hover:bg-transparent "
                         variant="outline"

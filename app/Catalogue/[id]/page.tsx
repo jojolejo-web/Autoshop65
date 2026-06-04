@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { addToCart, findProductId } from "../action";
+import { findProductId } from "../action";
 import AddToCartAction from "../AddToCartAction";
 import ProductGallery from "./ProductGallery";
 import { Separator } from "@/components/ui/separator";
@@ -96,8 +96,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const galleryImages = [...(mainImage ? [mainImage] : []), ...extraImages];
 
   const uniqueImages = [...new Set(galleryImages)];
-  const addToCartWithId = addToCart.bind(null, product.id);
-
   return (
     <main className="min-h-screen px-32 py-8 dark:bg-black">
       {/* <ProductImageForm action={addProductImageWithId} /> */}
@@ -133,7 +131,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <Separator />
           <div className="space-y-3">
             <AddToCartAction
-              action={addToCartWithId}
+              productId={product.id}
               buttonClassName="w-full bg-red-600 hover:bg-red-700 text-white py-6"
               variant="destructive"
             >
