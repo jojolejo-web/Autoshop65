@@ -37,10 +37,10 @@ const VALUES = [
 ];
 
 const STATS = [
-  { value: "3 000+", label: "Pièces en stock" },
-  { value: "98%", label: "Clients satisfaits" },
+  { value: "1 000+", label: "Pièces en stock" },
+  { value: "94%", label: "Clients satisfaits" },
   { value: "2 ans", label: "D'expérience" },
-  { value: "3", label: "Catégories de pièces" },
+  { value: "5", label: "Catégories de pièces" },
 ];
 
 const CATEGORIES = [
