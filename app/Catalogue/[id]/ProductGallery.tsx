@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 type ProductGalleryProps = {
   alt: string;
@@ -16,11 +17,15 @@ export default function ProductGallery({
   return (
     <div className="space-y-4 justify-self-center
 ">
-      <img
-        src={activeImage}
-        alt={alt}
-        className="w-90 rounded-lg object-cover"
-      />
+      <div className="relative h-80 w-80 overflow-hidden rounded-lg sm:h-90 sm:w-90">
+        <Image
+          src={activeImage}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 320px, 360px"
+          className="object-cover"
+        />
+      </div>
 
       {images.length > 1 ? (
         <div className="flex flex-wrap gap-3">
@@ -33,11 +38,15 @@ export default function ProductGallery({
                 activeImage === image ? "border-zinc-900" : "border-zinc-200"
               }`}
             >
-              <img
-                src={image}
-                alt={`${alt} ${index + 1}`}
-                className="h-20 w-20 object-cover"
-              />
+              <div className="relative h-20 w-20">
+                <Image
+                  src={image}
+                  alt={`${alt} ${index + 1}`}
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
+              </div>
             </button>
           ))}
         </div>

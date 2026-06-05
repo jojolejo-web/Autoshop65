@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Heart, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import AddToCartAction from "./AddToCartAction";
 
 type ProductProps = {
@@ -26,15 +27,19 @@ export default function Product({ product }: ProductProps) {
     <main>
       <Card className="pt-0 ring-0 rounded-none">
         <Link href={`/Catalogue/${product.id}`}>
-          <img
-            src={
-              product.image
-                ? `/${product.image.replace(/^\/+/, "")}`
-                : "/placeholder.png"
-            }
-            alt="Image du produit"
-            className="z-20 object-cover"
-          />
+          <div className="relative aspect-square w-full overflow-hidden">
+            <Image
+              src={
+                product.image
+                  ? `/${product.image.replace(/^\/+/, "")}`
+                  : "/placeholder.png"
+              }
+              alt="Image du produit"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="z-20 object-cover"
+            />
+          </div>
           <CardHeader className="space-y-2 pt-2 hover:underline hover:cursor-pointer">
             <CardTitle>{product.productName}</CardTitle>
             <CardDescription>{product.productDescription}</CardDescription>
