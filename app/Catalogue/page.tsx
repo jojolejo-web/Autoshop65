@@ -84,6 +84,7 @@ export default async function Catalogue({ searchParams }: CatalogueProps) {
     <main className="min-h-screen bg-white pb-10 dark:bg-black">
       <form
         action="/Catalogue"
+        data-name="catalogue-search-form"
         className="bg-linear-to-br from-red-600 to-red-700 px-4 py-10 sm:px-6 lg:px-12 xl:px-20"
       >
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
@@ -97,11 +98,17 @@ export default async function Catalogue({ searchParams }: CatalogueProps) {
             <Input
               name="search"
               defaultValue={search}
+              data-name="catalogue-search-input"
               className="w-full bg-gray-100 pl-10"
               placeholder="Rechercher une piece (ex: phare, pare-choc, moteur...)"
             />
             <input type="hidden" name="page" value="1" />
-            <Button variant="destructive" type="submit" className="w-full lg:w-auto">
+            <Button
+              variant="destructive"
+              type="submit"
+              data-name="catalogue-search-submit"
+              className="w-full lg:w-auto"
+            >
               Rechercher
             </Button>
           </div>
@@ -149,6 +156,7 @@ export default async function Catalogue({ searchParams }: CatalogueProps) {
                       search,
                       category,
                     )}
+                    data-name="catalogue-pagination-previous"
                     className={`rounded-md border px-3 py-2 text-sm ${
                       currentPage === 1
                         ? "pointer-events-none border-zinc-200 text-zinc-300"
@@ -162,6 +170,7 @@ export default async function Catalogue({ searchParams }: CatalogueProps) {
                     <Link
                       key={page}
                       href={buildPageHref(page, search, category)}
+                      data-name={`catalogue-pagination-page-${page}`}
                       className={`rounded-md border px-4 py-2 text-sm ${
                         currentPage === page
                           ? "border-red-500 bg-red-500 text-white"
@@ -178,6 +187,7 @@ export default async function Catalogue({ searchParams }: CatalogueProps) {
                       search,
                       category,
                     )}
+                    data-name="catalogue-pagination-next"
                     className={`rounded-md border px-3 py-2 text-sm ${
                       currentPage === totalPages
                         ? "pointer-events-none border-zinc-200 text-zinc-300"

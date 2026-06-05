@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Heart, X } from "lucide-react";
+import Image from "next/image";
 
 import CheckoutButton from "./CheckoutButton";
 import CartQuantitySelect from "./CartQuantitySelect";
@@ -85,11 +86,15 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
                 <CardContent key={item.id} className="space-y-3 p-4 md:p-6">
                   <div className="flex flex-col gap-4 md:flex-row  md:justify-between">
                     <div className="flex gap-3">
-                      <img
-                        src={item.product.image || ""}
-                        alt={item.product.productName}
-                        className="h-24 w-24 rounded-md object-cover"
-                      />
+                      <div className="relative h-24 w-24 overflow-hidden rounded-md">
+                        <Image
+                          src={item.product.image || "/placeholder.png"}
+                          alt={item.product.productName}
+                          fill
+                          sizes="96px"
+                          className="object-cover"
+                        />
+                      </div>
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between">

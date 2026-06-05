@@ -13,6 +13,7 @@ type AddToCartResult =
 
 type AddToCartActionProps = {
   productId: number;
+  dataName?: string;
   children: ReactNode;
   className?: string;
   buttonClassName?: string;
@@ -29,6 +30,7 @@ type ButtonState = "idle" | "loading" | "success";
 
 export default function AddToCartAction({
   productId,
+  dataName,
   children,
   className,
   buttonClassName,
@@ -116,6 +118,7 @@ export default function AddToCartAction({
       ) : null}
       <form action={handleSubmit} className="relative z-10">
         <Button
+          data-name={dataName}
           className={cn(
             "transition-all duration-200",
             state === "loading" && "scale-[0.99]",

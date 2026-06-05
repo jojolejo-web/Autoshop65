@@ -26,7 +26,7 @@ export default function Product({ product }: ProductProps) {
   return (
     <main>
       <Card className="pt-0 ring-0 rounded-none">
-        <Link href={`/Catalogue/${product.id}`}>
+        <Link href={`/Catalogue/${product.id}`} data-name={`catalogue-product-link-${product.id}`}>
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
               src={
@@ -47,11 +47,12 @@ export default function Product({ product }: ProductProps) {
         </Link>
 
         <CardFooter className="flex w-full gap-3">
-          <Button variant={"outline"}>
+          <Button variant={"outline"} data-name={`catalogue-favorite-button-${product.id}`}>
             <Heart />
           </Button>
           <AddToCartAction
             productId={product.id}
+            dataName={`catalogue-add-to-cart-${product.id}`}
             className="flex-1"
             buttonClassName="w-full"
             variant="destructive"

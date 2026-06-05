@@ -3,6 +3,7 @@
 import { signOut } from "next-auth/react";
 import { Edit, LogOutIcon, Package, Save, Settings } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -464,11 +465,15 @@ export default function ProfilInterface({
                             <div className="flex items-start gap-3">
                               <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-white">
                                 {item.image ? (
-                                  <img
-                                    src={item.image}
-                                    alt={item.productNameSnapshot}
-                                    className="h-full w-full object-cover"
-                                  />
+                                  <div className="relative h-full w-full">
+                                    <Image
+                                      src={item.image}
+                                      alt={item.productNameSnapshot}
+                                      fill
+                                      sizes="56px"
+                                      className="object-cover"
+                                    />
+                                  </div>
                                 ) : (
                                   <span className="text-xs text-zinc-400">
                                     Image

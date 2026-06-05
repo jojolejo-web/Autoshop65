@@ -41,6 +41,7 @@ export default function CategorieCard({
         <div className="flex flex-col gap-2">
           <Link
             href={buildCategoryHref(null, search)}
+            data-name="catalogue-category-all"
             className={`rounded-md border px-4 py-2 text-sm transition-colors ${
               !currentCategory
                 ? "border-red-500 bg-red-500 text-white"
@@ -54,6 +55,7 @@ export default function CategorieCard({
             <Link
               key={category.value}
               href={buildCategoryHref(category.value, search)}
+              data-name={`catalogue-category-${category.value}`}
               className={`rounded-md border px-4 py-2 text-sm transition-colors ${
                 currentCategory === category.value
                   ? "border-red-500 bg-red-500 text-white"

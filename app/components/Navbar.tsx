@@ -44,7 +44,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   return (
     <header className="border-b bg-white">
       <nav className="flex items-center justify-between px-4 py-2 md:px-8 lg:px-12">
-        <Link href="/" onClick={closeMobileMenu}>
+        <Link href="/" onClick={closeMobileMenu} data-name="nav-logo-home">
           <Image
             src="/logoAutoshop65.png"
             width={100}
@@ -58,6 +58,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             <Link
               key={href}
               href={href}
+              data-name={`nav-link-${label.toLowerCase().replaceAll(" ", "-")}`}
               className={`flex items-center gap-2 hover:text-red-500 hover:underline ${
                 pathname === href ? "text-red-500" : ""
               }`}
@@ -69,13 +70,13 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
         </div>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <Button variant="ghost" size="icon-lg">
+          <Button variant="ghost" size="icon-lg" data-name="nav-favorites-button">
             <Heart className="size-6" />
           </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon-lg">
+              <Button variant="ghost" size="icon-lg" data-name="nav-account-menu-trigger">
                 <User className="size-6" />
               </Button>
             </DropdownMenuTrigger>
@@ -84,19 +85,19 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                 {session?.user ? (
                   <>
                     <DropdownMenuItem asChild>
-                      <Link href="/Profil">
+                      <Link href="/Profil" data-name="nav-account-link">
                         <BadgeCheckIcon />
                         Mon compte
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/Profil?tab=commande">
+                      <Link href="/Profil?tab=commande" data-name="nav-orders-link">
                         <CreditCardIcon />
                         Mes commandes
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/Admin">
+                      <Link href="/Admin" data-name="nav-admin-link">
                         <ShieldCheckIcon />
                         Administration
                       </Link>
@@ -104,7 +105,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                   </>
                 ) : (
                   <DropdownMenuItem asChild>
-                    <Link href="/LogIn">
+                    <Link href="/LogIn" data-name="nav-login-account-link">
                       <BadgeCheckIcon />
                       Mon compte
                     </Link>
@@ -113,13 +114,13 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               {session?.user ? (
-                <DropdownMenuItem onClick={() => signOut()}>
+                <DropdownMenuItem onClick={() => signOut()} data-name="nav-logout-button">
                   <LogOutIcon />
                   Se deconnecter
                 </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem asChild>
-                  <Link href="/LogIn">
+                  <Link href="/LogIn" data-name="nav-login-link">
                     <LogInIcon />
                     Se connecter
                   </Link>
@@ -128,8 +129,8 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Link href="/Cart">
-            <Button variant="ghost" size="icon-lg" className="relative">
+          <Link href="/Cart" data-name="nav-cart-link">
+            <Button variant="ghost" size="icon-lg" className="relative" data-name="nav-cart-button">
               <ShoppingCart className="size-5" />
               {cartItemsCount > 0 ? (
                 <Badge className="absolute -right-1 -top-1 flex size-5 items-center justify-center bg-red-500 p-0 text-xs">
@@ -144,6 +145,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
           variant="ghost"
           size="icon-lg"
           className="lg:hidden"
+          data-name="nav-mobile-menu-open"
           onClick={() => setIsMobileMenuOpen(true)}
         >
           <Menu className="size-6" />
@@ -156,13 +158,14 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             type="button"
             aria-label="Fermer le menu"
             className="absolute inset-0 bg-black/40"
+            data-name="nav-mobile-menu-overlay"
             onClick={closeMobileMenu}
           />
 
           <div className="absolute right-0 top-0 flex h-full w-[86%] max-w-sm flex-col bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-red-100 px-4 py-4">
               <p className="text-lg font-semibold text-red-700">Menu</p>
-              <Button variant="ghost" size="icon-lg" onClick={closeMobileMenu}>
+              <Button variant="ghost" size="icon-lg" data-name="nav-mobile-menu-close" onClick={closeMobileMenu}>
                 <X className="size-6" />
               </Button>
             </div>
@@ -174,6 +177,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                     key={href}
                     href={href}
                     onClick={closeMobileMenu}
+                    data-name={`nav-mobile-link-${label.toLowerCase().replaceAll(" ", "-")}`}
                     className={`flex items-center gap-3 rounded-xl px-4 py-3 text-base transition-colors ${
                       pathname === href
                         ? "bg-red-50 text-red-600"
@@ -190,6 +194,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                     <Link
                       href="/Profil?tab=commande"
                       onClick={closeMobileMenu}
+                      data-name="nav-mobile-orders-link"
                       className="flex items-center gap-3 rounded-xl px-4 py-3 text-base text-zinc-800 transition-colors hover:bg-red-50 hover:text-red-600"
                     >
                       <CreditCardIcon className="size-5" />
@@ -198,6 +203,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                     <Link
                       href="/Admin"
                       onClick={closeMobileMenu}
+                      data-name="nav-mobile-admin-link"
                       className="flex items-center gap-3 rounded-xl px-4 py-3 text-base text-zinc-800 transition-colors hover:bg-red-50 hover:text-red-600"
                     >
                       <ShieldCheckIcon className="size-5" />
@@ -213,16 +219,18 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                 <Button
                   type="button"
                   variant="outline"
+                  data-name="nav-mobile-favorites-button"
                   className="h-auto flex-col gap-2 border-red-100 py-3 text-zinc-700"
                 >
                   <Heart className="size-5 text-red-500" />
                   <span className="text-xs">Favoris</span>
                 </Button>
 
-                <Link href={accountHref} onClick={closeMobileMenu}>
+                <Link href={accountHref} onClick={closeMobileMenu} data-name="nav-mobile-account-link">
                   <Button
                     type="button"
                     variant="outline"
+                    data-name="nav-mobile-account-button"
                     className="h-auto w-full flex-col gap-2 border-red-100 py-3 text-zinc-700"
                   >
                     <User className="size-5 text-red-500" />
@@ -230,10 +238,11 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                   </Button>
                 </Link>
 
-                <Link href="/Cart" onClick={closeMobileMenu}>
+                <Link href="/Cart" onClick={closeMobileMenu} data-name="nav-mobile-cart-link">
                   <Button
                     type="button"
                     variant="outline"
+                    data-name="nav-mobile-cart-button"
                     className="relative h-auto w-full flex-col gap-2 border-red-100 py-3 text-zinc-700"
                   >
                     <ShoppingCart className="size-5 text-red-500" />
@@ -250,6 +259,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
               {session?.user ? (
                 <Button
                   variant="ghost"
+                  data-name="nav-mobile-logout-button"
                   className="mt-3 w-full justify-center text-zinc-600 hover:bg-red-50 hover:text-red-600"
                   onClick={() => {
                     closeMobileMenu();
@@ -260,9 +270,10 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                   Se deconnecter
                 </Button>
               ) : (
-                <Link href="/LogIn" onClick={closeMobileMenu}>
+                <Link href="/LogIn" onClick={closeMobileMenu} data-name="nav-mobile-login-link">
                   <Button
                     variant="ghost"
+                    data-name="nav-mobile-login-button"
                     className="mt-3 w-full justify-center text-zinc-600 hover:bg-red-50 hover:text-red-600"
                   >
                     <LogInIcon className="size-4" />
