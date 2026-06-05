@@ -251,15 +251,15 @@ export async function markOrderPrepared(
     text: [
       `Bonjour ${customerName},`,
       "",
-      `Votre commande #${order.id} est preparee et finalisee.`,
+      `Votre commande #${order.id} est preparée et finalisée.`,
       "",
-      "Pieces commandees :",
+      "Pièces commandées :",
       ...order.items.map(
         (item) =>
           `- ${item.productNameSnapshot} x${item.quantity} - ${formatPrice(item.unitPrice * item.quantity)}`,
       ),
       "",
-      `Montant paye : ${formatPrice(order.totalAmount)}`,
+      `Montant payé : ${formatPrice(order.totalAmount)}`,
       "",
       "Merci pour votre confiance.",
       "Autoshop 65",
