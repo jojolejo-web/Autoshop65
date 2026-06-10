@@ -59,6 +59,16 @@ const CATEGORIES = [
     name: "Suspension",
     desc: "triangles, biellettes et tout ce qui garantit tenue de route et confort de conduite.",
   },
+  {
+    icon: Star,
+    name: "Eclairage",
+    desc: "Phares, feux arrière, ampoules et modules d'éclairage pour assurer visibilité et sécurité sur la route.",
+  },
+  {
+    icon: Truck,
+    name: "Transmission",
+    desc: "Boîtes de vitesses, arbres de transmission, embrayages et composants associés pour transmettre la puissance aux roues.",
+  },
 ];
 
 const STEPS = [

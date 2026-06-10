@@ -63,7 +63,7 @@ export default function RetraitColis() {
               value="Automatique"
               className=" text-center text-sm md:text-base rounded-e-full"
             >
-              <Lock /> Locker automatique
+              <Lock /> Locker automatique amazon
             </TabsTrigger>
           </TabsList>
 
@@ -111,7 +111,7 @@ export default function RetraitColis() {
                         <div className="flex size-16 items-center justify-center rounded-full bg-red-100">
                           <QrCode className="size-8 text-red-600" />
                         </div>
-                        <h4 className="text-red-600">2. QR Code / Numero</h4>
+                        <h4 className="text-red-600">2. QR Code</h4>
                         <p className="text-gray-600">
                           Montrez le QR code recu par email ou SMS
                         </p>
@@ -163,7 +163,7 @@ export default function RetraitColis() {
             <Card className="p-0">
               <CardHeader className="bg-red-600 py-3">
                 <CardTitle className="text-lg font-medium text-white">
-                  Locker Automatique 24h/24
+                  Locker Automatique amazon 24h/24
                 </CardTitle>
                 <CardDescription className="text-red-50">
                   Recuperez votre colis en toute autonomie, a toute heure,
@@ -290,8 +290,8 @@ export default function RetraitColis() {
             <CardContent className="space-y-4">
               <div>
                 <h4 className="mb-2">AUTOSHOP 65</h4>
-                <p className="text-gray-600">15 Avenue du Commerce</p>
-                <p className="text-gray-600">65000 Tarbes</p>
+                <p className="text-gray-600">86 Av. Francois Mitterrand 65600 Semeac</p>
+                <p className="text-gray-600">65600 Séméac</p>
               </div>
 
               <Separator />
@@ -302,14 +302,13 @@ export default function RetraitColis() {
                   Horaires d&apos;ouverture
                 </h4>
                 <div className="space-y-1 text-gray-600">
-                  <p>Lundi - Vendredi : 9h00 - 18h00</p>
-                  <p>Samedi : 9h00 - 12h00</p>
-                  <p>Dimanche : Ferme</p>
+                  <p>Lundi - Vendredi : 8h00 - 18h00</p>
+                  <p>Dimanche - Samedi : Ferme</p>
                 </div>
               </div>
 
               <Badge className="mt-2 bg-green-100 text-green-800 hover:bg-green-100">
-                Locker accessible 24h/24
+                Locker amazon 24h/24
               </Badge>
 
               <iframe

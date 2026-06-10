@@ -19,16 +19,16 @@ export default function Home() {
         <div className="container relative z-10 mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
             <Badge className="mb-6 bg-linear-to-r from-red-500 to-red-600 px-4 py-1 text-white hover:from-red-600 hover:to-red-700">
-              Save up to 70% on car parts
+              Économisez jusqu'à 70 % sur les pièces automobiles{" "}
             </Badge>
 
             <div className="flex flex-col items-center gap-4">
               <h1 className="text-center text-4xl font-bold lg:text-6xl">
-                Pieces detachees d&apos;occasion de qualite au meilleur prix
+                Pieces détachées d&apos;occasion de qualité au meilleur prix
               </h1>
               <p className="mb-8 text-xl text-gray-300">
                 Faites des economies et roulez de maniere durable grace a des
-                pieces automobiles d&apos;occasion certifiees
+                pièces automobiles d&apos;occasion certifiées
               </p>
               <Link href="/Catalogue">
                 <Button
@@ -49,7 +49,7 @@ export default function Home() {
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold">Comment ca marche</h2>
             <p className="text-lg text-gray-600">
-              Procurez-vous des pieces d&apos;occasion de qualite en 3 etapes
+              Procurez-vous des pièces d&apos;occasion de qualité en 3 étapes
               simples
             </p>
           </div>
@@ -59,11 +59,9 @@ export default function Home() {
               <div className="mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-linear-to-br from-red-500 to-red-700 text-3xl font-bold text-white">
                 1
               </div>
-              <h3 className="mb-3 text-xl font-bold">
-                Rechercher votre piece
-              </h3>
+              <h3 className="mb-3 text-xl font-bold">Rechercher votre pièce</h3>
               <p className="text-gray-600">
-                Parcourez les categories pour trouver la piece dont vous avez
+                Parcourez les catégories pour trouver la pièce dont vous avez
                 besoin
               </p>
               <ChevronRight className="absolute -right-4 top-8 hidden size-8 text-red-300 md:block" />
@@ -75,8 +73,8 @@ export default function Home() {
               </div>
               <h3 className="mb-3 text-xl font-bold">Comparer et choisir</h3>
               <p className="text-gray-600">
-                Consultez les photos detaillees et les caracteristiques
-                techniques pour choisir la piece ideale
+                Consultez les photos detaillées et les caractéristiques
+                techniques pour choisir la pièce idéale
               </p>
               <ChevronRight className="absolute -right-4 top-8 hidden size-8 text-red-300 md:block" />
             </div>
@@ -87,7 +85,7 @@ export default function Home() {
               </div>
               <h3 className="mb-3 text-xl font-bold">Paiement securise</h3>
               <p className="text-gray-600">
-                Payez en toute securite grace a plusieurs modes de paiement.
+                Payez en toute sécurité grâce a plusieurs modes de paiement.
               </p>
             </div>
           </div>

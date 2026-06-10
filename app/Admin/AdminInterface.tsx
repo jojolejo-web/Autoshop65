@@ -252,7 +252,7 @@ export default function AdminInterface({
         <div className="mb-8">
           <h1 className="text-3xl font-semibold text-red-700">Administration</h1>
           <p className="mt-2 text-zinc-600">
-            Gere les commandes, les produits et les indicateurs du site.
+            Géré les commandes, les produits et les indicateurs du site.
           </p>
         </div>
 
@@ -276,7 +276,7 @@ export default function AdminInterface({
               className="gap-2 data-[state=active]:bg-red-600 data-[state=active]:text-white"
             >
               <PlusCircle className="size-4" />
-              Ajouter une piece
+              Ajouter une pièce
             </TabsTrigger>
             <TabsTrigger
               value="stats"
@@ -290,16 +290,16 @@ export default function AdminInterface({
           <TabsContent value="orders" className="mt-6 space-y-8">
             <section className="space-y-4">
               <div>
-                <h2 className="text-xl font-semibold text-red-700">Commandes a preparer</h2>
+                <h2 className="text-xl font-semibold text-red-700">Commandes a préparer</h2>
                 <p className="text-sm text-zinc-600">
-                  Commandes payees, non encore marquees comme preparees.
+                  Commandes payées, non encore marquées comme préparées.
                 </p>
               </div>
 
               {orders.length === 0 ? (
                 <Card className="border-red-100">
                   <CardContent className="p-8 text-center text-zinc-500">
-                    Aucune commande a preparer
+                    Aucune commande a préparer
                   </CardContent>
                 </Card>
               ) : (
@@ -312,7 +312,7 @@ export default function AdminInterface({
                           {getCustomerName(order)} • {order.user.email}
                         </CardDescription>
                         <CardDescription>
-                          Passee le {formatDate(order.createdAt)}
+                          Passée le {formatDate(order.createdAt)}
                         </CardDescription>
                       </div>
 
@@ -330,7 +330,7 @@ export default function AdminInterface({
                           disabled={isPending}
                           className="w-full bg-red-600 hover:bg-red-700"
                         >
-                          Commande preparee
+                          Commande préparée
                         </Button>
                       </div>
                     </CardHeader>
@@ -355,7 +355,7 @@ export default function AdminInterface({
                             </div>
                             <div>
                               <p className="font-medium text-zinc-900">{item.productNameSnapshot}</p>
-                              <p className="text-sm text-zinc-500">Quantite : {item.quantity}</p>
+                              <p className="text-sm text-zinc-500">Quantité : {item.quantity}</p>
                             </div>
                           </div>
                           <p className="text-sm font-medium text-zinc-700">
@@ -373,7 +373,7 @@ export default function AdminInterface({
               <div>
                 <h2 className="text-xl font-semibold text-red-700">Historique des commandes</h2>
                 <p className="text-sm text-zinc-600">
-                  Commandes preparees, annulees ou echouees.
+                  Commandes préparées, annulées ou échouées.
                 </p>
               </div>
 
@@ -400,7 +400,7 @@ export default function AdminInterface({
                           {getOrderBadgeLabel(order.status, order.isPrepared)}
                         </span>
                         <p className="text-sm text-zinc-500">
-                          Finalisee le {formatDate(order.preparedAt ?? order.createdAt)}
+                          Finalisée le {formatDate(order.preparedAt ?? order.createdAt)}
                         </p>
                       </div>
                     </CardHeader>
@@ -416,7 +416,7 @@ export default function AdminInterface({
                 <CardHeader>
                   <CardTitle className="text-red-700">Ajouter une piece</CardTitle>
                   <CardDescription>
-                    Un seul formulaire : image principale + photos de presentation.
+                    Un seul formulaire : image principale + photos de présentation.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -456,7 +456,7 @@ export default function AdminInterface({
                         htmlFor="admin-product-reference"
                         className="text-sm font-medium text-zinc-700"
                       >
-                        Reference
+                        Référence
                       </label>
                       <input
                         id="admin-product-reference"
@@ -471,7 +471,7 @@ export default function AdminInterface({
                         htmlFor="admin-product-category"
                         className="text-sm font-medium text-zinc-700"
                       >
-                        Categorie
+                        Catégorie
                       </label>
                       <select
                         id="admin-product-category"
@@ -542,7 +542,7 @@ export default function AdminInterface({
                         htmlFor="admin-product-gallery"
                         className="text-sm font-medium text-zinc-700"
                       >
-                        Photos de presentation
+                        Photos de présentation
                       </label>
                       <input
                         id="admin-product-gallery"
@@ -554,14 +554,14 @@ export default function AdminInterface({
                         className="w-full rounded-md border border-red-100 bg-white px-4 py-3 text-sm"
                       />
                       <p className="text-sm text-zinc-500">
-                        Jusqu&apos;a 5 images de galerie, ajoutees directement a la piece.
+                        Jusqu&apos;a 5 images de galerie, ajoutées directement a la pièce.
                       </p>
                     </div>
                     <Button
                       type="submit"
                       className="w-full bg-red-600 py-6 text-base hover:bg-red-700"
                     >
-                      Ajouter la piece
+                      Ajouter la pièce
                     </Button>
                   </form>
                 </CardContent>
@@ -569,9 +569,9 @@ export default function AdminInterface({
 
               <Card className="border-red-100 shadow-sm shadow-red-100/40">
                 <CardHeader>
-                  <CardTitle className="text-red-700">Gerer les pieces</CardTitle>
+                  <CardTitle className="text-red-700">Gérer les pièces</CardTitle>
                   <CardDescription>
-                    Recherche une piece, modifie son prix ou son stock, ou supprime-la si elle n&apos;est liee a aucune commande.
+                    Recherche une pièce, modifié son prix ou son stock, ou supprime-la si elle n&apos;est liée a aucune commande.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -591,7 +591,7 @@ export default function AdminInterface({
 
                   {filteredProducts.length === 0 ? (
                     <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-center text-zinc-500">
-                      Aucune piece correspondante
+                      Aucune pièce correspondante
                     </p>
                   ) : (
                     paginatedProducts.map((product) => (
@@ -615,14 +615,14 @@ export default function AdminInterface({
                             <p className="font-medium text-zinc-900">{product.productName}</p>
                             <p className="text-xs text-zinc-500">ID : {product.id}</p>
                             <p className="text-xs text-zinc-500">
-                              Reference : {product.reference || "Non renseignee"}
+                              Référence : {product.reference || "Non renseignee"}
                             </p>
                             <p className="text-xs text-zinc-500">
-                              Categorie : {getCategoryLabel(product.category)}
+                              Catégorie : {getCategoryLabel(product.category)}
                             </p>
                             {product.usedInOrdersCount > 0 ? (
                               <p className="text-xs text-red-600">
-                                Deja liee a {product.usedInOrdersCount} commande(s)
+                                Déja liée a {product.usedInOrdersCount} commande(s)
                               </p>
                             ) : null}
                           </div>
@@ -726,13 +726,13 @@ export default function AdminInterface({
               </Card>
               <Card className="border-red-100 shadow-sm shadow-red-100/40">
                 <CardHeader>
-                  <CardDescription>Commandes payees</CardDescription>
+                  <CardDescription>Commandes payées</CardDescription>
                   <CardTitle className="text-3xl text-red-700">{stats.paidOrdersCount}</CardTitle>
                 </CardHeader>
               </Card>
               <Card className="border-red-100 shadow-sm shadow-red-100/40">
                 <CardHeader>
-                  <CardDescription>Commandes preparees</CardDescription>
+                  <CardDescription>Commandes préparées</CardDescription>
                   <CardTitle className="text-3xl text-red-700">{stats.preparedOrdersCount}</CardTitle>
                 </CardHeader>
               </Card>

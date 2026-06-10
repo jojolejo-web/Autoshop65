@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Tribune des Jeunes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --violet: #5B4FCF;
+    --violet-light: #7B6FE8;
+    --violet-deep: #2D2580;
+    --violet-pale: #EAE8FF;
+    --navy: #0D0B1F;
+    --navy-mid: #1A1730;
+    --white: #FFFFFF;
+    --cream: #F8F7FF;
+    --text-muted: #8B8BAA;
+    --border: rgba(91,79,207,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 60px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: all .3s;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.15rem;
+    color: var(--navy); text-decoration: none;
+    display: flex; align-items: baseline; gap: 4px;
+  }
+
+  .nav-logo span { color: var(--violet); }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem; font-weight: 500;
+    color: var(--navy); text-decoration: none;
+    letter-spacing: .03em;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--violet); }
+
+  .nav-cta {
+    background: var(--violet);
+    color: var(--white) !important;
+    padding: 9px 22px; border-radius: 6px;
+    font-weight: 600 !important;
+    transition: background .2s !important;
+  }
+  .nav-cta:hover { background: var(--violet-deep) !important; color: var(--white) !important; }
+
+  /* ── SECTIONS ── */
+  section { display: none; }
+  section.active { display: block; }
+
+  /* ── PAGE 1: ACCUEIL ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center;
+    padding: 120px 60px 80px;
+  }
+
+  .hero-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .hbc1 {
+    width: 600px; height: 600px;
+    background: rgba(91,79,207,0.35);
+    top: -100px; right: -100px;
+  }
+  .hbc2 {
+    width: 400px; height: 400px;
+    background: rgba(45,37,128,0.5);
+    bottom: -50px; left: 200px;
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 700px; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(91,79,207,0.25);
+    border: 1px solid rgba(91,79,207,0.5);
+    color: var(--violet-light);
+    font-size: .78rem; font-weight: 600; letter-spacing: .1em;
+    padding: 6px 14px; border-radius: 100px;
+    margin-bottom: 28px; text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800; line-height: 1.02;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    font-style: normal; color: var(--violet-light);
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem; line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+    max-width: 520px; margin-bottom: 44px;
+  }
+
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--violet);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: .95rem;
+    border: none; cursor: pointer;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--violet-light); transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500; font-size: .95rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer; text-decoration: none;
+    transition: border-color .2s, color .2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+  .hero-stats {
+    position: absolute; top: 50%; right: 60px;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 18px; z-index: 2;
+    align-items: flex-end;
+  }
+
+  .hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: right;
+    text-decoration: none;
+    transition: transform .2s ease, opacity .2s ease, border-color .2s ease;
+    opacity: .95;
+  }
+
+  .hero-stat:hover {
+    transform: translateX(-3px);
+    opacity: 1;
+  }
+
+  .hero-stat:hover .hero-stat-icon {
+    background: rgba(91,79,207,0.32);
+    border-color: rgba(123,111,232,0.55);
+    color: var(--violet-light);
+  }
+
+  .hero-stat:hover .num {
+    color: var(--violet-light);
+  }
+
+  .hero-stat:hover .label {
+    color: rgba(234,232,255,0.85);
+  }
+
+  .hero-stat-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+
+  .hero-stat-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .hero-stat-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .hero-stat .num {
+    font-family: 'Syne', sans-serif;
+    font-size: .98rem; font-weight: 800;
+    color: var(--white); display: block;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+
+  .hero-stat .label {
+    font-size: .78rem; color: rgba(255,255,255,0.45);
+    letter-spacing: .05em; text-transform: uppercase;
+  }
+
+  /* constat */
+  .constat {
+    padding: 100px 60px;
+    background: var(--cream);
+    position: relative;
+  }
+
+  .constat-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+
+  .section-eyebrow {
+    font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--violet);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 28px; height: 2px; background: var(--violet);
+  }
+
+  .constat h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 800; line-height: 1.15;
+    margin-bottom: 24px;
+  }
+
+  .constat p {
+    font-size: 1rem; line-height: 1.75;
+    color: #4A4A6A; margin-bottom: 16px;
+  }
+
+  .constat-cards {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .constat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    transition: box-shadow .2s;
+  }
+  .constat-card:hover { box-shadow: 0 8px 32px rgba(91,79,207,0.1); }
+
+  .constat-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: .95rem;
+    color: var(--violet); margin-bottom: 8px;
+  }
+  .constat-card p { font-size: .88rem; margin: 0; color: #5A5A7A; }
+
+  /* objectifs */
+  .objectifs {
+    padding: 100px 60px;
+    background: var(--white);
+  }
+
+  .objectifs-inner { max-width: 1100px; margin: 0 auto; }
+
+  .objectifs h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 800; margin-bottom: 60px;
+    text-align: center;
+  }
+
+  .obj-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  }
+
+  .obj-card {
+    border-radius: 16px;
+    padding: 32px 28px;
+    position: relative; overflow: hidden;
+  }
+
+  .obj-card:nth-child(1) { background: var(--navy); color: var(--white); }
+  .obj-card:nth-child(2) { background: var(--violet-pale); }
+  .obj-card:nth-child(3) { background: var(--violet); color: var(--white); }
+  .obj-card:nth-child(4) { background: var(--navy-mid); color: var(--white); }
+
+  .obj-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem; font-weight: 800; opacity: .12;
+    line-height: 1; margin-bottom: 16px; display: block;
+  }
+
+  .obj-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .06em;
+    margin-bottom: 12px;
+  }
+
+  .obj-card:nth-child(2) h3 { color: var(--violet-deep); }
+
+  .obj-card p { font-size: .88rem; line-height: 1.65; opacity: .8; }
+  .obj-card:nth-child(2) p { color: #4A4A6A; opacity: 1; }
+
+  /* image strip */
+  .img-strip {
+    height: 340px;
+    background: var(--navy-mid);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    gap: 0;
+  }
+
+  .img-strip-item {
+    flex: 1; height: 100%;
+    background: linear-gradient(135deg, #1a1730 0%, #2d2580 100%);
+    display: flex; align-items: center; justify-content: center;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    font-family: 'Syne', sans-serif;
+    font-size: .75rem; font-weight: 600;
+    color: rgba(255,255,255,0.2); letter-spacing: .1em; text-transform: uppercase;
+    transition: flex .4s ease;
+    position: relative;
+  }
+
+  .img-strip-item:hover { flex: 1.6; }
+  .img-strip-item:nth-child(2) { background: linear-gradient(135deg, #2d2580 0%, #5b4fcf 100%); }
+  .img-strip-item:nth-child(3) { background: linear-gradient(135deg, #5b4fcf 0%, #7b6fe8 100%); }
+
+  .img-placeholder-label {
+    writing-mode: vertical-rl;
+    font-size: .7rem; font-weight: 600;
+    letter-spacing: .15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ── PAGE 2: PRODUCTIONS ── */
+  .productions-hero {
+    background: var(--navy);
+    padding: 140px 60px 80px;
+    position: relative; overflow: hidden;
+  }
+
+  .productions-hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--violet), transparent);
+  }
+
+  .productions-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800; color: var(--white); max-width: 700px;
+    line-height: 1.05;
+  }
+
+  .productions-hero h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; color: var(--violet-light);
+  }
+
+  .filter-bar {
+    padding: 32px 60px;
+    display: flex; gap: 12px; align-items: center;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-size: .78rem; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--text-muted); margin-right: 8px;
+  }
+
+  .filter-btn {
+    padding: 7px 18px; border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .83rem; font-weight: 500;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--navy);
+    cursor: pointer; transition: all .2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--violet); color: var(--white); border-color: var(--violet);
+  }
+
+  .articles-grid {
+    padding: 60px;
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  }
+
+  .article-card {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--white);
+    transition: transform .2s, box-shadow .2s;
+    cursor: pointer;
+  }
+  .article-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(91,79,207,0.12); }
+
+  .article-card.featured {
+    grid-column: 1 / 3;
+    display: grid; grid-template-columns: 1.2fr 1fr;
+  }
+
+  .article-img {
+    height: 200px;
+    background: linear-gradient(135deg, #1a1730, #5b4fcf);
+    display: flex; align-items: flex-end; padding: 20px;
+    position: relative;
+  }
+
+  .article-card.featured .article-img { height: auto; min-height: 280px; }
+
+  .article-type {
+    font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; padding: 5px 12px;
+    border-radius: 4px; display: inline-block;
+  }
+
+  .type-interview { background: var(--violet); color: var(--white); }
+  .type-article { background: rgba(255,255,255,0.15); color: var(--white); backdrop-filter: blur(4px); }
+  .type-event { background: #2d2580; color: var(--white); }
+
+  .article-body { padding: 24px; }
+
+  .article-meta {
+    font-size: .75rem; color: var(--text-muted);
+    margin-bottom: 10px; display: flex; gap: 12px; align-items: center;
+  }
+
+  .article-body h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 700; line-height: 1.3;
+    margin-bottom: 10px; color: var(--navy);
+  }
+  .article-card.featured .article-body h3 { font-size: 1.4rem; }
+
+  .article-body p {
+    font-size: .85rem; line-height: 1.6; color: #5A5A7A;
+  }
+
+  .article-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 16px; font-size: .83rem; font-weight: 600;
+    color: var(--violet); text-decoration: none;
+  }
+
+  /* ── PAGE 3: ÉQUIPE ── */
+  .equipe-hero {
+    background: var(--cream);
+    padding: 140px 60px 80px;
+    position: relative;
+    padding-right: 480px;
+  }
+
+  .equipe-hero-visual .team-photo {
+    height: 420px;
+    width: 360px;
+    border-radius: 24px;
+    border: 1px solid rgba(91,79,207,0.18);
+    box-shadow: 0 20px 60px rgba(91,79,207,0.12);
+  }
+
+  .equipe-hero-visual {
+    position: absolute;
+    top: 50%;
+    right: 60px;
+    transform: translateY(-50%);
+  }
+
+  .equipe-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800; max-width: 600px; line-height: 1.05;
+  }
+
+  .equipe-hero h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; color: var(--violet);
+  }
+
+  .equipe-hero p {
+    max-width: 520px; font-size: 1rem; line-height: 1.7;
+    color: #5A5A7A; margin-top: 20px;
+  }
+
+  .team-grid {
+    padding: 80px 60px;
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  }
+
+  .team-card {
+    background: var(--white);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .team-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(91,79,207,0.1); }
+
+  .team-photo {
+    height: 260px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--violet) 100%);
+    position: relative;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .team-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(13,11,31,0.6) 100%);
+  }
+
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .team-body { padding: 24px 28px; }
+
+  .team-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 4px;
+  }
+
+  .team-role {
+    font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--violet); margin-bottom: 14px;
+  }
+
+  .team-bio {
+    font-size: .87rem; line-height: 1.65; color: #5A5A7A;
+  }
+
+  .team-card.president .team-photo {
+    background: linear-gradient(135deg, #2D2580 0%, #7B6FE8 100%);
+  }
+
+  /* values band */
+  .values-band {
+    background: var(--violet);
+    padding: 60px;
+    display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;
+  }
+
+  .value-item { text-align: center; color: var(--white); }
+  .value-item .v-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 800; display: block;
+  }
+  .value-item .v-label {
+    font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; opacity: .75; margin-top: 4px;
+  }
+
+  /* ── PAGE 4: ADHÉSION ── */
+  .adhesion-hero {
+    background: var(--navy);
+    padding: 140px 60px 80px;
+    position: relative; overflow: hidden;
+  }
+
+  .adhesion-hero .hbc1 { width: 500px; height: 500px; top: -80px; left: -80px; }
+  .adhesion-hero .hbc2 { width: 350px; height: 350px; bottom: -30px; right: 100px; }
+
+  .adhesion-hero-inner { position: relative; z-index: 2; max-width: 700px; }
+
+  .adhesion-hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800; color: var(--white); line-height: 1.05;
+    margin-bottom: 20px;
+  }
+
+  .adhesion-hero p {
+    font-size: 1.05rem; line-height: 1.7;
+    color: rgba(255,255,255,0.6); max-width: 480px;
+  }
+
+  .adhesion-content {
+    padding: 80px 60px;
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+  }
+
+  .adhesion-why h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 800; margin-bottom: 32px;
+  }
+
+  .why-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+
+  .why-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px 24px;
+    background: var(--cream);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .why-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--violet); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  .why-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: .93rem; font-weight: 700; margin-bottom: 4px;
+  }
+  .why-text p { font-size: .83rem; line-height: 1.55; color: #5A5A7A; }
+
+  /* form */
+  .adhesion-form-wrap {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 44px;
+    color: var(--white);
+    position: sticky; top: 100px;
+  }
+
+  .adhesion-form-wrap h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 800; margin-bottom: 8px;
+  }
+
+  .adhesion-form-wrap .price {
+    display: flex; align-items: baseline; gap: 6px; margin-bottom: 28px;
+  }
+  .price .amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 800; color: var(--violet-light);
+  }
+  .price .period { font-size: .85rem; color: rgba(255,255,255,0.5); }
+
+  .form-group { margin-bottom: 16px; }
+
+  .form-group label {
+    display: block; font-size: .78rem; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); margin-bottom: 8px;
+  }
+
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 12px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: .93rem;
+    outline: none; transition: border-color .2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--violet-light);
+  }
+  .form-group input::placeholder, .form-group select option { color: rgba(255,255,255,0.3); }
+  .form-group select { color: rgba(255,255,255,0.7); background-color: #1a1730; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .btn-submit {
+    width: 100%; padding: 16px;
+    background: var(--violet); color: var(--white);
+    border: none; border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    transition: background .2s; margin-top: 8px;
+  }
+  .btn-submit:hover { background: var(--violet-light); }
+
+  .form-note {
+    text-align: center; font-size: .75rem;
+    color: rgba(255,255,255,0.3); margin-top: 14px; line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    padding: 60px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    flex-wrap: wrap; gap: 32px;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; font-weight: 800;
+    color: var(--white); margin-bottom: 10px;
+  }
+  .footer-logo span { color: var(--violet-light); }
+
+  .footer-tagline {
+    font-size: .83rem; color: rgba(255,255,255,0.35); max-width: 280px; line-height: 1.6;
+  }
+
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-size: .83rem; color: rgba(255,255,255,0.4); text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--violet-light); }
+
+  .footer-copy {
+    font-size: .73rem; color: rgba(255,255,255,0.2);
+    margin-top: 40px; text-align: center;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-content > * { animation: fadeUp .7s ease both; }
+  .hero-content > *:nth-child(1) { animation-delay: .1s; }
+  .hero-content > *:nth-child(2) { animation-delay: .2s; }
+  .hero-content > *:nth-child(3) { animation-delay: .3s; }
+  .hero-content > *:nth-child(4) { animation-delay: .4s; }
+
+  /* Mobile tweaks */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 20px; }
+    .hero, .constat, .objectifs, .productions-hero, .equipe-hero,
+    .adhesion-hero, .adhesion-content, .filter-bar,
+    .articles-grid, .team-grid, footer { padding-left: 24px; padding-right: 24px; }
+    .constat-inner { grid-template-columns: 1fr; gap: 40px; }
+    .obj-grid { grid-template-columns: 1fr 1fr; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .article-card.featured { grid-column: auto; display: block; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .equipe-hero { padding-right: 24px; }
+      .equipe-hero-visual {
+        position: static;
+        transform: none;
+        margin-top: 32px;
+        max-width: 420px;
+      }
+      .equipe-hero-visual .team-photo {
+        width: 100%;
+      }
+    .adhesion-content { grid-template-columns: 1fr; }
+    .adhesion-form-wrap { position: static; }
+    .hero-stats {
+      position: static;
+      transform: none;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-top: 48px;
+      justify-content: flex-start;
+      align-items: stretch;
+    }
+    .hero-stat-text { align-items: flex-start; text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo" onclick="showPage('accueil'); return false;">
+    TRIBUNE <span>DES JEUNES</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('accueil'); return false;">Accueil</a></li>
+    <li><a href="#" onclick="showPage('productions'); return false;">Productions</a></li>
+    <li><a href="#" onclick="showPage('equipe'); return false;">L'équipe</a></li>
+    <li><a href="#" class="nav-cta" onclick="showPage('adhesion'); return false;">Adhérer</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════
+     PAGE 1 — ACCUEIL
+══════════════════════════════════ -->
+<section id="accueil" class="active">
+
+  <div class="hero">
+    <div class="hero-bg-circle hbc1"></div>
+    <div class="hero-bg-circle hbc2"></div>
+    <div class="hero-content">
+      <h1>La parole aux<br><em>jeunes citoyens</em></h1>
+      <p class="hero-desc">
+        La Tribune des Jeunes sensibilise la jeunesse aux institutions, à la chose publique et aux enjeux démocratiques — locaux comme nationaux. Parce que la démocratie n'attend pas.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary" onclick="showPage('adhesion'); return false;">Rejoindre l'association</a>
+        <a href="#" class="btn-ghost" onclick="showPage('productions'); return false;">Nos productions →</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      
+      <a class="hero-stat" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="hero-stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.5" r="1"></circle>
+          </svg>
+        </span>
+        
+      </a>
+      <a class="hero-stat" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="hero-stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M15 8h-2a2 2 0 0 0-2 2v11"></path>
+            <path d="M9 13h6"></path>
+            <path d="M14 3h-2a5 5 0 0 0-5 5v2"></path>
+          </svg>
+        </span>
+       
+      </a>
+      <a class="hero-stat" href="mailto:contact@tribunedesjeunes.fr">
+        <span class="hero-stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+            <path d="m3 7 9 6 9-6"></path>
+          </svg>
+        </span>
+        
+      </a>
+    </div>
+  </div>
+
+  <!-- CONSTAT -->
+  <div class="constat">
+    <div class="constat-inner">
+      <div>
+        <div class="section-eyebrow">Pourquoi nous existons</div>
+        <h2>Un constat simple.<br>Une urgence réelle.</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. La désaffection des jeunes pour la chose publique n'est pas une fatalité — c'est le symptôme d'un manque d'accès, d'explication et d'invitation à participer.
+        </p>
+        <p>
+          Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Les institutions existent pour tous, mais elles semblent réservées à quelques-uns. Nous voulons changer ça.
+        </p>
+      </div>
+      <div class="constat-cards">
+        <div class="constat-card">
+          <h4>🗳 Abstention record</h4>
+          <p>Lorem ipsum dolor sit amet, les jeunes de 18-24 ans représentent la tranche d'âge la plus abstentionniste lors des élections.</p>
+        </div>
+        <div class="constat-card">
+          <h4>🏛 Méconnaissance des institutions</h4>
+          <p>Consectetur adipiscing elit, sed do eiusmod — la majorité des jeunes interrogés ne sauraient nommer les compétences de leur collectivité locale.</p>
+        </div>
+        <div class="constat-card">
+          <h4>💬 Besoin de dialogue</h4>
+          <p>Ut labore et dolore magna aliqua — pourtant, l'intérêt existe. Il manque seulement les espaces d'échange et de débat accessibles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMAGE STRIP -->
+  <div class="img-strip">
+    <div class="img-strip-item"><span class="img-placeholder-label">Photo événement</span></div>
+    <div class="img-strip-item"><span class="img-placeholder-label">Atelier / Débat</span></div>
+    <div class="img-strip-item"><span class="img-placeholder-label">Interview</span></div>
+    <div class="img-strip-item"><span class="img-placeholder-label">Rencontre</span></div>
+  </div>
+
+  <!-- OBJECTIFS -->
+  <div class="objectifs">
+    <div class="objectifs-inner">
+      <div class="section-eyebrow" style="justify-content:center; margin-bottom:12px;">Nos quatre piliers</div>
+      <h2>Ce que nous portons</h2>
+      <div class="obj-grid">
+        <div class="obj-card">
+          <span class="obj-num">01</span>
+          <h3>Engagement</h3>
+          <p>Nous souhaitons un engagement citoyen plus fort. Comprendre les institutions et faire l'effort de s'y intéresser est primordial. Si personne ne s'occupe de l'administration, elle s'occupe de vous.</p>
+        </div>
+        <div class="obj-card">
+          <span class="obj-num" style="color:var(--violet);">02</span>
+          <h3>Socio-culturel</h3>
+          <p>Nous développons l'esprit critique et la culture politique. La chose publique n'est pas réservée à une classe — elle appartient à tous. Notre mission : la rendre accessible.</p>
+        </div>
+        <div class="obj-card">
+          <span class="obj-num">03</span>
+          <h3>Écologique</h3>
+          <p>La Tribune des Jeunes s'engage à minimiser son empreinte carbone par tous les moyens réalistes, notamment via une maximisation des transports en commun pour ses déplacements.</p>
+        </div>
+        <div class="obj-card">
+          <span class="obj-num">04</span>
+          <h3>Économique</h3>
+          <p>Pas de recherche de profit. Nous comptons sur les adhésions, donations et subventions. Tout capital recueilli sert directement la cause : événements, matériels, productions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">TRIBUNE <span>DES JEUNES</span></div>
+        <p class="footer-tagline">Association loi 1901 fondée à Tarbes. Pour la jeunesse, par la jeunesse, au service de tous.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="showPage('productions'); return false;">Productions</a>
+        <a href="#" onclick="showPage('equipe'); return false;">Équipe</a>
+        <a href="#" onclick="showPage('adhesion'); return false;">Adhérer</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2025 La Tribune des Jeunes — Association loi 1901</p>
+  </footer>
+</section>
+
+<!-- ══════════════════════════════════
+     PAGE 2 — PRODUCTIONS
+══════════════════════════════════ -->
+<section id="productions">
+
+  <div class="productions-hero">
+    <div class="hero-bg-circle hbc1"></div>
+    <div class="section-eyebrow" style="color:var(--violet-light); margin-bottom:20px;">Interviews · Articles · Événements</div>
+    <h1>Nos <em>productions</em><br>& contenus</h1>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label">Filtrer par</span>
+    <button class="filter-btn active" data-filter="all" onclick="setFilter(this)">Tout</button>
+    <button class="filter-btn" data-filter="interview" onclick="setFilter(this)">Interviews</button>
+    <button class="filter-btn" data-filter="article" onclick="setFilter(this)">Articles</button>
+    <button class="filter-btn" onclick="setFilter(this)">Événements</button>
+    <button class="filter-btn" data-filter="atelier" onclick="setFilter(this)">Ateliers</button>
+  </div>
+
+  <div class="articles-grid">
+
+    <!-- Featured -->
+    <div class="article-card featured" data-category="interview">
+      <div class="article-img" style="background: linear-gradient(135deg, #1A1730 0%, #5B4FCF 100%); flex-direction:column; justify-content:flex-end;">
+        <span class="img-placeholder-label" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); writing-mode:horizontal-tb;">📸 Photo / Couverture</span>
+        <span class="article-type type-interview" style="position:relative; z-index:2;">Interview</span>
+      </div>
+      <div class="article-body" style="padding: 36px;">
+        <div class="article-meta">
+          <span>12 avril 2025</span>
+          <span>·</span>
+          <span>10 min de lecture</span>
+        </div>
+        <h3>Lorem ipsum — Rencontre avec un élu local sur les enjeux de la jeunesse dans les Hautes-Pyrénées</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+        <a href="#" class="article-link">Lire l'interview →</a>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="article-card" data-category="article">
+      <div class="article-img" style="background: linear-gradient(135deg, #2D2580, #7B6FE8);">
+        <span class="article-type type-article">Article</span>
+      </div>
+      <div class="article-body">
+        <div class="article-meta"><span>5 mars 2025</span><span>·</span><span>5 min</span></div>
+        <h3>Lorem ipsum dolor sit — comprendre les institutions locales</h3>
+        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+        <a href="#" class="article-link">Lire →</a>
+      </div>
+    </div>
+
+    <div class="article-card" data-category="evenement">
+      <div class="article-img" style="background: linear-gradient(135deg, #0D0B1F, #2D2580);">
+        <span class="article-type type-event">Événement</span>
+      </div>
+      <div class="article-body">
+        <div class="article-meta"><span>20 fév. 2025</span><span>·</span><span>Compte-rendu</span></div>
+        <h3>Atelier citoyenneté — retour sur notre première rencontre publique</h3>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliqua.</p>
+        <a href="#" class="article-link">Voir →</a>
+      </div>
+    </div>
+
+    <div class="article-card" data-category="interview">
+      <div class="article-img" style="background: linear-gradient(135deg, #5B4FCF, #2D2580);">
+        <span class="article-type type-interview">Interview</span>
+      </div>
+      <div class="article-body">
+        <div class="article-meta"><span>8 fév. 2025</span><span>·</span><span>7 min</span></div>
+        <h3>Lorem ipsum — un responsable syndical témoigne</h3>
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.</p>
+        <a href="#" class="article-link">Lire l'interview →</a>
+      </div>
+    </div>
+
+    <div class="article-card" data-category="article">
+      <div class="article-img" style="background: linear-gradient(135deg, #1A1730, #5B4FCF);">
+        <span class="article-type type-article">Article</span>
+      </div>
+      <div class="article-body">
+        <div class="article-meta"><span>1 fév. 2025</span><span>·</span><span>4 min</span></div>
+        <h3>Pourquoi voter ? Lorem ipsum dolor sit amet elit</h3>
+        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.</p>
+        <a href="#" class="article-link">Lire →</a>
+      </div>
+    </div>
+
+    <div class="article-card" data-category="atelier">
+      <div class="article-img" style="background: linear-gradient(135deg, #2D2580, #0D0B1F);">
+        <span class="article-type type-event">Atelier</span>
+      </div>
+      <div class="article-body">
+        <div class="article-meta"><span>15 jan. 2025</span><span>·</span><span>Atelier</span></div>
+        <h3>Tissu économique local — ce que vous n'apprenez pas à l'école</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+        <a href="#" class="article-link">Voir →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">TRIBUNE <span>DES JEUNES</span></div>
+        <p class="footer-tagline">Association loi 1901 fondée à Tarbes.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="showPage('accueil'); return false;">Accueil</a>
+        <a href="#" onclick="showPage('equipe'); return false;">Équipe</a>
+        <a href="#" onclick="showPage('adhesion'); return false;">Adhérer</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2025 La Tribune des Jeunes — Association loi 1901</p>
+  </footer>
+</section>
+
+<!-- ══════════════════════════════════
+     PAGE 3 — ÉQUIPE
+══════════════════════════════════ -->
+<section id="equipe">
+
+  <div class="equipe-hero">
+    <div class="section-eyebrow">Les gens derrière le projet</div>
+    <h1>Une équipe<br><em>engagée</em></h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nous sommes des étudiants, des jeunes actifs, animés par une même conviction : la politique est l'affaire de tous.</p>
+    <div class="equipe-hero-visual">
+      <div class="team-photo" style="background: linear-gradient(135deg, #2D2580 0%, #7B6FE8 100%);">
+      </div>
+    </div>
+  </div>
+
+  <div class="team-grid">
+
+    <div class="team-card president">
+      <div class="team-photo"><div class="photo-placeholder">Photo Valentin</div></div>
+      <div class="team-body">
+        <div class="team-name">Valentin Rouby</div>
+        <div class="team-role">Président</div>
+        <p class="team-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Étudiant en droit, passionné de politique locale et d'engagement citoyen. Fondateur de La Tribune des Jeunes.</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo" style="background: linear-gradient(135deg, #0D0B1F, #5B4FCF);">
+        <div class="photo-placeholder">Photo Membre</div>
+      </div>
+      <div class="team-body">
+        <div class="team-name">Prénom Nom</div>
+        <div class="team-role">Vice-Président(e)</div>
+        <p class="team-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo" style="background: linear-gradient(135deg, #2D2580, #7B6FE8);">
+        <div class="photo-placeholder">Photo Membre</div>
+      </div>
+      <div class="team-body">
+        <div class="team-name">Prénom Nom</div>
+        <div class="team-role">Secrétaire</div>
+        <p class="team-bio">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo" style="background: linear-gradient(135deg, #1A1730, #2D2580);">
+        <div class="photo-placeholder">Photo Membre</div>
+      </div>
+      <div class="team-body">
+        <div class="team-name">Prénom Nom</div>
+        <div class="team-role">Trésorier(ère)</div>
+        <p class="team-bio">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo" style="background: linear-gradient(135deg, #5B4FCF, #1A1730);">
+        <div class="photo-placeholder">Photo Membre</div>
+      </div>
+      <div class="team-body">
+        <div class="team-name">Prénom Nom</div>
+        <div class="team-role">Chargé(e) de communication</div>
+        <p class="team-bio">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </div>
+
+    <!-- "Join" card -->
+    <div class="team-card" style="background: var(--violet-pale); border: 2px dashed rgba(91,79,207,0.3); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height: 340px; cursor:pointer;" onclick="showPage('adhesion')">
+      <div style="font-size:2.5rem; margin-bottom:16px;">+</div>
+      <div class="team-name" style="color:var(--violet);">Rejoins-nous</div>
+      <div class="team-role" style="color:var(--violet-deep); margin-bottom:12px;">On recrute</div>
+      <p class="team-bio" style="color:#4A4A6A; max-width:200px;">Tu veux t'engager ? Clique pour adhérer à l'association.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">TRIBUNE <span>DES JEUNES</span></div>
+        <p class="footer-tagline">Association loi 1901 fondée à Tarbes.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="showPage('accueil'); return false;">Accueil</a>
+        <a href="#" onclick="showPage('productions'); return false;">Productions</a>
+        <a href="#" onclick="showPage('adhesion'); return false;">Adhérer</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2025 La Tribune des Jeunes — Association loi 1901</p>
+  </footer>
+</section>
+
+<!-- ══════════════════════════════════
+     PAGE 4 — ADHÉSION
+══════════════════════════════════ -->
+<section id="adhesion">
+
+  <div class="adhesion-hero">
+    <div class="hero-bg-circle hbc1"></div>
+    <div class="hero-bg-circle hbc2"></div>
+    <div class="adhesion-hero-inner">
+      <div class="section-eyebrow" style="color:var(--violet-light);">Devenir membre</div>
+      <h1>Rejoins<br>La Tribune</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adhérer, c'est soutenir la cause et participer à la vie de l'association.</p>
+    </div>
+  </div>
+
+  <div class="adhesion-content">
+
+    <div class="adhesion-why">
+      <div class="section-eyebrow">Pourquoi adhérer</div>
+      <h2>Ce que tu rejoins</h2>
+      <ul class="why-list">
+        <li class="why-item">
+          <div class="why-icon">🏛</div>
+          <div class="why-text">
+            <h4>Accès à tous nos événements</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit — rencontres avec des élus, ateliers, conférences.</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-icon">🗣</div>
+          <div class="why-text">
+            <h4>Un espace de parole</h4>
+            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Participe aux débats et ateliers.</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-icon">🤝</div>
+          <div class="why-text">
+            <h4>Un réseau engagé</h4>
+            <p>Ut enim ad minim veniam, quis nostrud — rejoins une communauté de jeunes citoyens actifs.</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-icon">📰</div>
+          <div class="why-text">
+            <h4>Contribuer aux productions</h4>
+            <p>Duis aute irure dolor in reprehenderit — participe à la rédaction d'articles, à l'organisation d'interviews.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="adhesion-form-wrap">
+      <h3>Formulaire d'adhésion</h3>
+      <div class="price">
+        <span class="amount">Libre</span>
+        <span class="period">contribution / an</span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" placeholder="Jean">
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" placeholder="Dupont">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="jean@exemple.fr">
+      </div>
+
+      <div class="form-group">
+        <label>Ville</label>
+        <input type="text" placeholder="Tarbes">
+      </div>
+
+      <div class="form-group">
+        <label>Âge</label>
+        <input type="number" placeholder="20">
+      </div>
+
+      <div class="form-group">
+        <label>Tu souhaites</label>
+        <select>
+          <option value="">Choisir une option</option>
+          <option>Simplement adhérer et soutenir</option>
+          <option>Participer aux événements</option>
+          <option>Contribuer activement (écriture, organisation…)</option>
+          <option>Rejoindre l'équipe dirigeante</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Message (optionnel)</label>
+        <textarea rows="3" placeholder="Dis-nous quelques mots sur toi ou ta motivation…" style="resize:none;"></textarea>
+      </div>
+
+      <button class="btn-submit">Envoyer ma demande →</button>
+      <p class="form-note">Association loi 1901 — apolitique et non partisane.<br>Tes données ne seront pas transmises à des tiers.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">TRIBUNE <span>DES JEUNES</span></div>
+        <p class="footer-tagline">Association loi 1901 fondée à Tarbes. Pour la jeunesse, par la jeunesse.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="showPage('accueil'); return false;">Accueil</a>
+        <a href="#" onclick="showPage('productions'); return false;">Productions</a>
+        <a href="#" onclick="showPage('equipe'); return false;">Équipe</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2025 La Tribune des Jeunes — Association loi 1901</p>
+  </footer>
+</section>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function setFilter(btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = (btn.dataset.filter || btn.textContent || '')
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+    document.querySelectorAll('#productions .article-card').forEach(card => {
+      const category = (card.dataset.category || '').trim().toLowerCase();
+      const shouldShow = filter === 'tout' || filter === 'all' || category === filter;
+
+      card.style.display = shouldShow ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>
