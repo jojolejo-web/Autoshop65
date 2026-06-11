@@ -195,7 +195,7 @@ export default function About() {
             Notre stock
           </span>
           <h2 className="text-3xl font-bold text-gray-900">
-            Nos 3 catégories de pièces
+            Nos 5 catégories de pièces
           </h2>
           <p className="text-gray-500 mt-3 max-w-xl mx-auto">
             Nous nous concentrons sur trois familles de pièces pour vous offrir

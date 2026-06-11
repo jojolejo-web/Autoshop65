@@ -10,9 +10,9 @@ import Product from "./Product";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Catalogue de pieces d'occasion",
+  title: "Catalogue de pièces d'occasion",
   description:
-    "Explorez notre catalogue de pieces detachees d'occasion pour moteur, carrosserie, transmission, eclairage et suspension.",
+    "Explorez notre catalogue de pièces détachées d'occasion pour moteur, carrosserie, transmission, éclairage et suspension.",
   path: "/Catalogue",
 });
 
