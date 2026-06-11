@@ -28,12 +28,14 @@ import {
   User,
   X,
 } from "lucide-react";
+import { isAdminEmail } from "@/lib/admin-emails";
 import { navLinks } from "./nav-links";
 
 export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const canAccessAdmin = isAdminEmail(session?.user?.email);
 
   const accountHref = session?.user ? "/Profil" : "/LogIn";
 
@@ -96,12 +98,14 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                         Mes commandes
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/Admin" data-name="nav-admin-link">
-                        <ShieldCheckIcon />
-                        Administration
-                      </Link>
-                    </DropdownMenuItem>
+                    {canAccessAdmin ? (
+                      <DropdownMenuItem asChild>
+                        <Link href="/Admin" data-name="nav-admin-link">
+                          <ShieldCheckIcon />
+                          Administration
+                        </Link>
+                      </DropdownMenuItem>
+                    ) : null}
                   </>
                 ) : (
                   <DropdownMenuItem asChild>
@@ -200,15 +204,17 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                       <CreditCardIcon className="size-5" />
                       Mes commandes
                     </Link>
-                    <Link
-                      href="/Admin"
-                      onClick={closeMobileMenu}
-                      data-name="nav-mobile-admin-link"
-                      className="flex items-center gap-3 rounded-xl px-4 py-3 text-base text-zinc-800 transition-colors hover:bg-red-50 hover:text-red-600"
-                    >
-                      <ShieldCheckIcon className="size-5" />
-                      Administration
-                    </Link>
+                    {canAccessAdmin ? (
+                      <Link
+                        href="/Admin"
+                        onClick={closeMobileMenu}
+                        data-name="nav-mobile-admin-link"
+                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-base text-zinc-800 transition-colors hover:bg-red-50 hover:text-red-600"
+                      >
+                        <ShieldCheckIcon className="size-5" />
+                        Administration
+                      </Link>
+                    ) : null}
                   </>
                 ) : null}
               </div>
