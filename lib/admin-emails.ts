@@ -1,5 +1,6 @@
 const DEFAULT_ADMIN_EMAILS = [
   "autoshop65600@hotmail.com",
+  "philppe65800@gmail.com"
 ];
 
 function normalizeEmail(email: string) {
