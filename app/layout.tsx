@@ -35,6 +35,9 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
+  verification: {
+    google: "iqvORvofUoVCNxURp8tMHmy0UtcTW1tipqopMblfFfk",
+  },
   icons: {
     icon: [{ url: siteConfig.logo, type: "image/png" }],
     shortcut: [siteConfig.logo],
