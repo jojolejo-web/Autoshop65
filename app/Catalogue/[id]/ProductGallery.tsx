@@ -15,14 +15,13 @@ export default function ProductGallery({
   const [activeImage, setActiveImage] = useState(images[0] ?? "/placeholder.png");
 
   return (
-    <div className="space-y-4 justify-self-center
-">
-      <div className="relative h-80 w-80 overflow-hidden rounded-lg sm:h-90 sm:w-90">
+    <div className="w-full max-w-xl space-y-4 justify-self-center">
+      <div className="relative aspect-square w-full overflow-hidden rounded-lg">
         <Image
           src={activeImage}
           alt={alt}
           fill
-          sizes="(max-width: 768px) 320px, 360px"
+          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 640px"
           className="object-cover"
         />
       </div>

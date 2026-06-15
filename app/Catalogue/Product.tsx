@@ -22,10 +22,18 @@ type ProductProps = {
     image: string | null;
   };
 };
+
+function formatPrice(amount: number) {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  }).format(amount / 100);
+}
+
 export default function Product({ product }: ProductProps) {
   return (
     <main>
-      <Card className="pt-0 ring-0 rounded-none">
+      <Card className="rounded-none pt-0 ring-0">
         <Link href={`/Catalogue/${product.id}`} data-name={`catalogue-product-link-${product.id}`}>
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
@@ -43,6 +51,7 @@ export default function Product({ product }: ProductProps) {
           <CardHeader className="space-y-2 pt-2 hover:underline hover:cursor-pointer">
             <CardTitle>{product.productName}</CardTitle>
             <CardDescription>{product.productDescription}</CardDescription>
+            <p className="text-lg font-semibold text-red-600">{formatPrice(product.price)}</p>
           </CardHeader>
         </Link>
 

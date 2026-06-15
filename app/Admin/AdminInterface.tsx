@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { BarChart3, Package, PlusCircle, Search } from "lucide-react";
+import { BarChart3, Package, PencilLine, PlusCircle, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +26,7 @@ type AdminInterfaceProps = {
     ordersCount: number;
     paidOrdersCount: number;
     preparedOrdersCount: number;
+    preparationEmailsSentCount: number;
   };
   products: AdminProduct[];
   activeOrders: AdminOrder[];
@@ -36,6 +37,7 @@ type AdminProduct = {
   id: number;
   productName: string;
   reference: string | null;
+  productDescription: string | null;
   price: number;
   stock: number;
   image: string | null;
@@ -187,8 +189,11 @@ export default function AdminInterface({
 
   function handleProductFieldChange(
     productId: number,
-    field: "price" | "stock",
-    value: number,
+    field: keyof Pick<
+      AdminProduct,
+      "productName" | "reference" | "productDescription" | "price" | "stock"
+    >,
+    value: string | number,
   ) {
     setProductList((current) =>
       current.map((product) =>
@@ -208,6 +213,9 @@ export default function AdminInterface({
       setFeedback(null);
       const result = await updateProductFromAdmin({
         productId,
+        productName: product.productName,
+        reference: product.reference ?? "",
+        productDescription: product.productDescription ?? "",
         price: product.price,
         stock: product.stock,
       });
@@ -222,6 +230,9 @@ export default function AdminInterface({
           item.id === productId
             ? {
                 ...item,
+                productName: result.product.productName,
+                reference: result.product.reference,
+                productDescription: result.product.productDescription,
                 price: result.product.price,
                 stock: result.product.stock,
               }
@@ -233,7 +244,10 @@ export default function AdminInterface({
   }
 
   const filteredProducts = productList.filter((product) =>
-    product.productName.toLowerCase().includes(productSearch.trim().toLowerCase()),
+    [product.productName, product.reference ?? ""]
+      .join(" ")
+      .toLowerCase()
+      .includes(productSearch.trim().toLowerCase()),
   );
   const productsPerPage = 5;
   const totalProductPages = Math.max(
@@ -252,7 +266,7 @@ export default function AdminInterface({
         <div className="mb-8">
           <h1 className="text-3xl font-semibold text-red-700">Administration</h1>
           <p className="mt-2 text-zinc-600">
-            Géré les commandes, les produits et les indicateurs du site.
+            Gere les commandes, les produits et les indicateurs du site.
           </p>
         </div>
 
@@ -263,7 +277,7 @@ export default function AdminInterface({
         ) : null}
 
         <Tabs defaultValue="orders" className="w-full">
-          <TabsList className="grid w-full grid-cols-1 gap-2 border border-red-100 bg-red-50/80 p-1 md:grid-cols-3 mb-15">
+          <TabsList className="mb-24 grid w-full grid-cols-1 gap-2 border border-red-100 bg-red-50/80 p-1 md:grid-cols-4">
             <TabsTrigger
               value="orders"
               className="gap-2 data-[state=active]:bg-red-600 data-[state=active]:text-white"
@@ -272,11 +286,18 @@ export default function AdminInterface({
               Commandes
             </TabsTrigger>
             <TabsTrigger
-              value="products"
+              value="create-product"
               className="gap-2 data-[state=active]:bg-red-600 data-[state=active]:text-white"
             >
               <PlusCircle className="size-4" />
-              Ajouter une pièce
+              Ajouter une piece
+            </TabsTrigger>
+            <TabsTrigger
+              value="edit-product"
+              className="gap-2 data-[state=active]:bg-red-600 data-[state=active]:text-white"
+            >
+              <PencilLine className="size-4" />
+              Modifier une piece
             </TabsTrigger>
             <TabsTrigger
               value="stats"
@@ -290,16 +311,16 @@ export default function AdminInterface({
           <TabsContent value="orders" className="mt-6 space-y-8">
             <section className="space-y-4">
               <div>
-                <h2 className="text-xl font-semibold text-red-700">Commandes a préparer</h2>
+                <h2 className="text-xl font-semibold text-red-700">Commandes a preparer</h2>
                 <p className="text-sm text-zinc-600">
-                  Commandes payées, non encore marquées comme préparées.
+                  Commandes payees, non encore marquees comme preparees.
                 </p>
               </div>
 
               {orders.length === 0 ? (
                 <Card className="border-red-100">
                   <CardContent className="p-8 text-center text-zinc-500">
-                    Aucune commande a préparer
+                    Aucune commande a preparer
                   </CardContent>
                 </Card>
               ) : (
@@ -311,9 +332,7 @@ export default function AdminInterface({
                         <CardDescription>
                           {getCustomerName(order)} • {order.user.email}
                         </CardDescription>
-                        <CardDescription>
-                          Passée le {formatDate(order.createdAt)}
-                        </CardDescription>
+                        <CardDescription>Passee le {formatDate(order.createdAt)}</CardDescription>
                       </div>
 
                       <div className="space-y-2">
@@ -330,7 +349,7 @@ export default function AdminInterface({
                           disabled={isPending}
                           className="w-full bg-red-600 hover:bg-red-700"
                         >
-                          Commande préparée
+                          Commande preparee
                         </Button>
                       </div>
                     </CardHeader>
@@ -355,7 +374,7 @@ export default function AdminInterface({
                             </div>
                             <div>
                               <p className="font-medium text-zinc-900">{item.productNameSnapshot}</p>
-                              <p className="text-sm text-zinc-500">Quantité : {item.quantity}</p>
+                              <p className="text-sm text-zinc-500">Quantite : {item.quantity}</p>
                             </div>
                           </div>
                           <p className="text-sm font-medium text-zinc-700">
@@ -373,7 +392,7 @@ export default function AdminInterface({
               <div>
                 <h2 className="text-xl font-semibold text-red-700">Historique des commandes</h2>
                 <p className="text-sm text-zinc-600">
-                  Commandes préparées, annulées ou échouées.
+                  Commandes preparees, annulees ou echouees.
                 </p>
               </div>
 
@@ -400,7 +419,7 @@ export default function AdminInterface({
                           {getOrderBadgeLabel(order.status, order.isPrepared)}
                         </span>
                         <p className="text-sm text-zinc-500">
-                          Finalisée le {formatDate(order.preparedAt ?? order.createdAt)}
+                          Finalisee le {formatDate(order.preparedAt ?? order.createdAt)}
                         </p>
                       </div>
                     </CardHeader>
@@ -410,13 +429,13 @@ export default function AdminInterface({
             </section>
           </TabsContent>
 
-          <TabsContent value="products" className="mt-6">
-            <div className="grid gap-6 2xl:grid-cols-[1.05fr_0.95fr]">
+          <TabsContent value="create-product" className="mt-6">
+            <div className="grid gap-6">
               <Card className="border-red-100 shadow-sm shadow-red-100/40">
                 <CardHeader>
                   <CardTitle className="text-red-700">Ajouter une piece</CardTitle>
                   <CardDescription>
-                    Un seul formulaire : image principale + photos de présentation.
+                    Un seul formulaire : image principale + photos de presentation.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -456,7 +475,7 @@ export default function AdminInterface({
                         htmlFor="admin-product-reference"
                         className="text-sm font-medium text-zinc-700"
                       >
-                        Référence
+                        Reference
                       </label>
                       <input
                         id="admin-product-reference"
@@ -471,7 +490,7 @@ export default function AdminInterface({
                         htmlFor="admin-product-category"
                         className="text-sm font-medium text-zinc-700"
                       >
-                        Catégorie
+                        Categorie
                       </label>
                       <select
                         id="admin-product-category"
@@ -542,7 +561,7 @@ export default function AdminInterface({
                         htmlFor="admin-product-gallery"
                         className="text-sm font-medium text-zinc-700"
                       >
-                        Photos de présentation
+                        Photos de presentation
                       </label>
                       <input
                         id="admin-product-gallery"
@@ -554,24 +573,28 @@ export default function AdminInterface({
                         className="w-full rounded-md border border-red-100 bg-white px-4 py-3 text-sm"
                       />
                       <p className="text-sm text-zinc-500">
-                        Jusqu&apos;a 5 images de galerie, ajoutées directement a la pièce.
+                        Jusqu&apos;a 5 images de galerie, ajoutees directement a la piece.
                       </p>
                     </div>
                     <Button
                       type="submit"
                       className="w-full bg-red-600 py-6 text-base hover:bg-red-700"
                     >
-                      Ajouter la pièce
+                      Ajouter la piece
                     </Button>
                   </form>
                 </CardContent>
               </Card>
+            </div>
+          </TabsContent>
 
+          <TabsContent value="edit-product" className="mt-6">
+            <div className="grid gap-6">
               <Card className="border-red-100 shadow-sm shadow-red-100/40">
                 <CardHeader>
-                  <CardTitle className="text-red-700">Gérer les pièces</CardTitle>
+                  <CardTitle className="text-red-700">Modifier les pieces</CardTitle>
                   <CardDescription>
-                    Recherche une pièce, modifié son prix ou son stock, ou supprime-la si elle n&apos;est liée a aucune commande.
+                    Recherche une piece, modifie son nom, sa reference, sa description, son prix ou son stock.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
@@ -591,7 +614,7 @@ export default function AdminInterface({
 
                   {filteredProducts.length === 0 ? (
                     <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-center text-zinc-500">
-                      Aucune pièce correspondante
+                      Aucune piece correspondante
                     </p>
                   ) : (
                     paginatedProducts.map((product) => (
@@ -615,20 +638,53 @@ export default function AdminInterface({
                             <p className="font-medium text-zinc-900">{product.productName}</p>
                             <p className="text-xs text-zinc-500">ID : {product.id}</p>
                             <p className="text-xs text-zinc-500">
-                              Référence : {product.reference || "Non renseignee"}
+                              Reference : {product.reference || "Non renseignee"}
                             </p>
                             <p className="text-xs text-zinc-500">
-                              Catégorie : {getCategoryLabel(product.category)}
+                              Categorie : {getCategoryLabel(product.category)}
                             </p>
                             {product.usedInOrdersCount > 0 ? (
                               <p className="text-xs text-red-600">
-                                Déja liée a {product.usedInOrdersCount} commande(s)
+                                Deja liee a {product.usedInOrdersCount} commande(s)
                               </p>
                             ) : null}
                           </div>
                         </div>
 
-                        <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                        <div className="mt-4 grid gap-3">
+                          <input
+                            type="text"
+                            value={product.productName}
+                            onChange={(e) =>
+                              handleProductFieldChange(product.id, "productName", e.target.value)
+                            }
+                            className="rounded-md border border-red-100 bg-white px-3 py-2"
+                            placeholder="Nom"
+                          />
+                          <input
+                            type="text"
+                            value={product.reference ?? ""}
+                            onChange={(e) =>
+                              handleProductFieldChange(product.id, "reference", e.target.value)
+                            }
+                            className="rounded-md border border-red-100 bg-white px-3 py-2"
+                            placeholder="Reference"
+                          />
+                          <textarea
+                            value={product.productDescription ?? ""}
+                            onChange={(e) =>
+                              handleProductFieldChange(
+                                product.id,
+                                "productDescription",
+                                e.target.value,
+                              )
+                            }
+                            className="min-h-24 rounded-md border border-red-100 bg-white px-3 py-2"
+                            placeholder="Description"
+                          />
+                        </div>
+
+                        <div className="mt-3 grid gap-3 lg:grid-cols-2">
                           <input
                             type="number"
                             value={product.price}
@@ -711,7 +767,7 @@ export default function AdminInterface({
           </TabsContent>
 
           <TabsContent value="stats" className="mt-6">
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
               <Card className="border-red-100 shadow-sm shadow-red-100/40">
                 <CardHeader>
                   <CardDescription>Utilisateurs</CardDescription>
@@ -726,14 +782,22 @@ export default function AdminInterface({
               </Card>
               <Card className="border-red-100 shadow-sm shadow-red-100/40">
                 <CardHeader>
-                  <CardDescription>Commandes payées</CardDescription>
+                  <CardDescription>Commandes payees</CardDescription>
                   <CardTitle className="text-3xl text-red-700">{stats.paidOrdersCount}</CardTitle>
                 </CardHeader>
               </Card>
               <Card className="border-red-100 shadow-sm shadow-red-100/40">
                 <CardHeader>
-                  <CardDescription>Commandes préparées</CardDescription>
+                  <CardDescription>Commandes preparees</CardDescription>
                   <CardTitle className="text-3xl text-red-700">{stats.preparedOrdersCount}</CardTitle>
+                </CardHeader>
+              </Card>
+              <Card className="border-red-100 shadow-sm shadow-red-100/40">
+                <CardHeader>
+                  <CardDescription>Emails envoyes</CardDescription>
+                  <CardTitle className="text-3xl text-red-700">
+                    {stats.preparationEmailsSentCount}
+                  </CardTitle>
                 </CardHeader>
               </Card>
             </div>

@@ -20,6 +20,7 @@ export default async function AdminPage() {
         id: product.id,
         productName: product.productName,
         reference: product.reference,
+        productDescription: product.productDescription,
         price: product.price,
         stock: product.stock,
         image: product.image,

@@ -18,7 +18,17 @@ type DeleteProductResult =
 
 type UpdateProductResult =
   | { success: false; message: string }
-  | { success: true; product: { id: number; price: number; stock: number } };
+  | {
+      success: true;
+      product: {
+        id: number;
+        productName: string;
+        reference: string | null;
+        productDescription: string | null;
+        price: number;
+        stock: number;
+      };
+    };
 
 function formatPrice(amount: number) {
   return new Intl.NumberFormat("fr-FR", {
@@ -27,15 +37,38 @@ function formatPrice(amount: number) {
   }).format(amount / 100);
 }
 
+function normalizeText(text: string) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
 export async function getAdminDashboardData() {
   await requireAdminSession();
 
-  const [usersCount, ordersCount, paidOrdersCount, preparedOrdersCount, activeOrders, orderHistory, products] =
+  const [
+    usersCount,
+    ordersCount,
+    paidOrdersCount,
+    preparedOrdersCount,
+    preparationEmailsSentCount,
+    activeOrders,
+    orderHistory,
+    products,
+  ] =
     await Promise.all([
       prisma.user.count(),
       prisma.order.count(),
       prisma.order.count({ where: { status: "paid" } }),
       prisma.order.count({ where: { isPrepared: true } }),
+      prisma.order.count({
+        where: {
+          preparationEmailSentAt: {
+            not: null,
+          },
+        },
+      }),
       prisma.order.findMany({
         where: {
           status: "paid",
@@ -114,6 +147,7 @@ export async function getAdminDashboardData() {
           id: true,
           productName: true,
           reference: true,
+          productDescription: true,
           price: true,
           stock: true,
           image: true,
@@ -133,6 +167,7 @@ export async function getAdminDashboardData() {
       ordersCount,
       paidOrdersCount,
       preparedOrdersCount,
+      preparationEmailsSentCount,
     },
     activeOrders,
     orderHistory,
@@ -337,17 +372,27 @@ export async function deleteProductFromAdmin(
 
 export async function updateProductFromAdmin(input: {
   productId: number;
+  productName: string;
+  reference: string;
+  productDescription: string;
   price: number;
   stock: number;
 }): Promise<UpdateProductResult> {
   await requireAdminSession();
 
   const productId = Number(input.productId);
+  const productName = String(input.productName ?? "").trim();
+  const reference = String(input.reference ?? "").trim();
+  const productDescription = String(input.productDescription ?? "").trim();
   const price = Number(input.price);
   const stock = Number(input.stock);
 
   if (!Number.isInteger(productId) || productId <= 0) {
     return { success: false, message: "Piece invalide" };
+  }
+
+  if (!productName) {
+    return { success: false, message: "Nom invalide" };
   }
 
   if (!Number.isInteger(price) || price <= 0) {
@@ -370,11 +415,19 @@ export async function updateProductFromAdmin(input: {
   const updatedProduct = await prisma.product.update({
     where: { id: productId },
     data: {
+      productName,
+      reference: reference || null,
+      productDescription: productDescription || null,
+      normalizedName: normalizeText(productName),
+      normalizedDescription: normalizeText(productDescription),
       price,
       stock,
     },
     select: {
       id: true,
+      productName: true,
+      reference: true,
+      productDescription: true,
       price: true,
       stock: true,
     },

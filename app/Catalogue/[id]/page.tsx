@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-
-import { findProductId } from "../action";
-import AddToCartAction from "../AddToCartAction";
-import ProductGallery from "./ProductGallery";
-import { Separator } from "@/components/ui/separator";
 import {
   CheckCircle,
   Heart,
@@ -13,6 +9,7 @@ import {
   Phone,
   ShoppingCart,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,14 +18,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/lib/metadata";
+import AddToCartAction from "../AddToCartAction";
+import { findProductId } from "../action";
+import ProductGallery from "./ProductGallery";
 
 type ProductPageProps = {
   params: Promise<{
     id: string;
   }>;
 };
+
+function formatPrice(amount: number) {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  }).format(amount / 100);
+}
 
 export async function generateMetadata({
   params,
@@ -78,8 +85,7 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const idConvert = (await params).id;
-  const id = Number(idConvert);
+  const id = Number((await params).id);
 
   if (Number.isNaN(id)) {
     redirect("/Catalogue");
@@ -94,51 +100,62 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const mainImage = product.image ? `/${product.image}` : null;
   const extraImages = product.images.map((image) => `/${image.src}`);
   const galleryImages = [...(mainImage ? [mainImage] : []), ...extraImages];
-
   const uniqueImages = [...new Set(galleryImages)];
-  return (
-    <main className="min-h-screen px-32 py-8 dark:bg-black">
-      {/* <ProductImageForm action={addProductImageWithId} /> */}
 
-      <div className="grid items-start  gap-10 md:grid-cols-2">
+  return (
+    <main className="min-h-screen px-4 py-6 dark:bg-black sm:px-6 lg:px-10 xl:px-16">
+      <div className="mx-auto grid max-w-7xl items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,480px)] lg:gap-10">
         <ProductGallery
           alt={product.productName}
           images={uniqueImages.length ? uniqueImages : ["/placeholder.png"]}
         />
+
         <div className="space-y-6">
-          <h1 className="text-3xl font-semibold">{product.productName}</h1>
-          <p className="text-zinc-600">{product.productDescription}</p>
+          <div className="space-y-3">
+            <h1 className="text-2xl font-semibold sm:text-3xl">{product.productName}</h1>
+            <p className="text-sm text-zinc-600 sm:text-base">
+              {product.productDescription}
+            </p>
+          </div>
+
           <Separator />
+
           <div className="flex flex-col gap-2">
-            <p className="text-4xl font-medium text-red-600">
-              {(product.price / 100).toFixed(2).replace(".", ",")} €
+            <p className="text-3xl font-medium text-red-600 sm:text-4xl">
+              {formatPrice(product.price)}
             </p>
             <p className="text-gray-600">TVA incluse</p>
           </div>
 
           <Separator />
+
           <p
-            className={`flex items-center gap-2 ${product.stock >= 1 ? "text-green-500" : "text-red-500"} `}
+            className={`flex items-center gap-2 text-sm sm:text-base ${product.stock >= 1 ? "text-green-600" : "text-red-600"}`}
           >
-            {" "}
-            <CheckCircle className="size-8 mb-2" />
+            <CheckCircle className="size-5 shrink-0 sm:size-6" />
             En stock : {product.stock}
           </p>
-          <p className="flex items-center gap-2">
-            <MapPin /> Disponible à Tarbes (65000)
+          <p className="flex items-center gap-2 text-sm sm:text-base">
+            <MapPin className="size-5 shrink-0" />
+            Disponible a Tarbes (65000)
           </p>
-          <p>Référence :</p>
+          <p className="text-sm text-zinc-700 sm:text-base">
+            Reference : {product.reference?.trim() || "Non renseignee"}
+          </p>
+
           <Separator />
+
           <div className="space-y-3">
             <AddToCartAction
               productId={product.id}
-              buttonClassName="w-full bg-red-600 hover:bg-red-700 text-white py-6"
+              buttonClassName="w-full bg-red-600 py-5 text-white hover:bg-red-700 sm:py-6"
               variant="destructive"
             >
-                <ShoppingCart className="mr-2 size-5" />
-                Ajouter au panier
+              <ShoppingCart className="mr-2 size-5" />
+              Ajouter au panier
             </AddToCartAction>
-            <div className="grid grid-cols-2 gap-3">
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Button
                 variant="outline"
                 className="border-red-600 text-red-600 hover:bg-red-50"
@@ -154,28 +171,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </Button>
             </div>
           </div>
-          <Card className="ring-red-500 mt-18">
+
+          <Card className="mt-10 border-red-100">
             <CardHeader>
-              <CardTitle className="text-red-500">
-                Besoin d&apos;information
-              </CardTitle>
-              <CardDescription>
-                Notre équipe est à votre disposition
-              </CardDescription>
+              <CardTitle className="text-red-500">Besoin d&apos;information</CardTitle>
+              <CardDescription>Notre equipe est a votre disposition</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="w-full flex flex-col gap-3">
+              <div className="flex w-full flex-col gap-3">
                 <Button
                   variant="destructive"
-                  className="w-full flex justify-start gap-4 text-md bg-transparent border-2 text-black border-gray hover:bg-gray-100 py-4"
+                  className="flex w-full justify-start gap-4 border-2 border-zinc-300 bg-transparent py-4 text-left text-sm text-black hover:bg-gray-100 sm:text-base"
                 >
-                  <Phone /> <Link href="tel:0562952175">05 62 95 21 75</Link>
+                  <Phone />
+                  <Link href="tel:0562952175">05 62 95 21 75</Link>
                 </Button>
                 <Button
                   variant="destructive"
-                  className="w-full flex justify-start gap-4 text-md bg-transparent border-2 text-black border-gray hover:bg-gray-100  py-4"
+                  className="flex h-auto w-full justify-start gap-4 border-2 border-zinc-300 bg-transparent py-4 text-left text-sm text-black hover:bg-gray-100 sm:text-base"
                 >
-                  <MailIcon />{" "}
+                  <MailIcon />
                   <Link href="mailto:autoshop65600@hotmail.com">
                     autoshop65600@hotmail.com
                   </Link>
