@@ -42,6 +42,8 @@ export default async function ProfilPage({
         email: user.email,
         name: user.name,
         surName: user.surName,
+        // Seule l'information « a un mot de passe » part au navigateur, jamais le hash.
+        hasPassword: Boolean(user.password),
         orders: user.orders.map((order) => ({
           id: order.id,
           status: order.status,

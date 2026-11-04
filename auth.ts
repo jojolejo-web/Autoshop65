@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 import { prisma } from "@/lib/prisma";
+import { passwordFingerprint } from "@/lib/account-security";
 import { compare } from "bcryptjs";
 
 function getRequiredEnv(name: "GOOGLE_CLIENT_ID" | "GOOGLE_CLIENT_SECRET") {
@@ -80,6 +81,54 @@ export const authOptions: NextAuthOptions = {
       }
 
       return true;
+    },
+    /**
+     * À chaque lecture de session, on vérifie que le compte existe toujours et
+     * que le mot de passe n'a pas changé depuis la connexion. Sinon la session
+     * est révoquée (next-auth efface le cookie quand ce callback lève une erreur).
+     */
+    async jwt({ token, user }) {
+      const email = user?.email ?? token.email;
+
+      if (!email) {
+        return token;
+      }
+
+      let dbUser: { password: string | null } | null;
+
+      try {
+        dbUser = await prisma.user.findUnique({
+          where: { email },
+          select: { password: true },
+        });
+      } catch (error) {
+        // Base injoignable un instant : on ne déconnecte pas tout le monde.
+        console.error("Session check skipped", error);
+        return token;
+      }
+
+      if (!dbUser) {
+        throw new Error("Session revoquee : compte introuvable");
+      }
+
+      const fingerprint = passwordFingerprint(dbUser.password);
+
+      if (user) {
+        token.pwd = fingerprint;
+        return token;
+      }
+
+      // Jetons émis avant cette mise à jour : on les adopte une fois.
+      if (token.pwd === undefined) {
+        token.pwd = fingerprint;
+        return token;
+      }
+
+      if (token.pwd !== fingerprint) {
+        throw new Error("Session revoquee : mot de passe modifie");
+      }
+
+      return token;
     },
   },
 };

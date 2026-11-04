@@ -26,6 +26,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { deleteAccount, updateProfile } from "./action";
+import ChangePasswordDialog from "./ChangePasswordDialog";
 
 type ProfilInterfaceProps = {
   initialTab: "account" | "commande";
@@ -33,6 +34,7 @@ type ProfilInterfaceProps = {
     email: string;
     name: string | null;
     surName: string | null;
+    hasPassword: boolean;
     orders: {
       id: number;
       status: "pending" | "paid" | "failed" | "cancelled";
@@ -127,6 +129,7 @@ export default function ProfilInterface({
   const [valueSurName, OnValueSurName] = useState("");
   const [error, setError] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
+  const [deleteConfirmation, setDeleteConfirmation] = useState("");
   const [deleteError, setDeleteError] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -163,16 +166,27 @@ export default function ProfilInterface({
     setDeleteLoading(true);
     setDeleteError("");
 
-    const result = await deleteAccount(deletePassword);
+    try {
+      const result = await deleteAccount(
+        user.hasPassword
+          ? { password: deletePassword }
+          : { confirmation: deleteConfirmation },
+      );
 
-    if (!result.success) {
-      setDeleteError(result.message);
+      if (!result.success) {
+        setDeleteError(result.message);
+        setDeleteLoading(false);
+        return;
+      }
+    } catch {
+      setDeleteError("Une erreur est survenue, veuillez réessayer.");
       setDeleteLoading(false);
       return;
     }
 
     setDeleteDialogOpen(false);
     setDeletePassword("");
+    setDeleteConfirmation("");
     await signOut({ callbackUrl: "/" });
   }
 
@@ -325,9 +339,14 @@ export default function ProfilInterface({
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full">
-                  Changer le mot de passe
-                </Button>
+                {user.hasPassword ? (
+                  <ChangePasswordDialog />
+                ) : (
+                  <p className="rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+                    Vous vous connectez avec Google : votre mot de passe se
+                    gère directement depuis votre compte Google.
+                  </p>
+                )}
               </CardContent>
             </Card>
 
@@ -354,6 +373,7 @@ export default function ProfilInterface({
                     setDeleteDialogOpen(open);
                     if (!open) {
                       setDeletePassword("");
+                      setDeleteConfirmation("");
                       setDeleteError("");
                       setDeleteLoading(false);
                     }
@@ -364,45 +384,83 @@ export default function ProfilInterface({
                       Supprimer mon compte
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-sm">
+                  <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle>Supprimer</DialogTitle>
+                      <DialogTitle>Supprimer mon compte</DialogTitle>
                       <DialogDescription>
-                        Etes vous sur de supprimer votre compte
+                        Cette action est définitive. Vos informations
+                        personnelles, votre panier et vos favoris seront
+                        effacés. Si vous avez déjà commandé, vos commandes sont
+                        conservées de façon anonyme pour nos obligations
+                        comptables.
                       </DialogDescription>
-                      <div className="space-y-4 pt-6">
-                        {deleteError ? (
-                          <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                            {deleteError}
-                          </div>
-                        ) : null}
+                    </DialogHeader>
 
-                        <input
-                          type="password"
-                          className="w-full rounded-lg border bg-[#f3f3f5] px-4 py-2"
-                          placeholder="Confirmez avec votre mot de passe"
-                          value={deletePassword}
-                          onChange={(e) => setDeletePassword(e.target.value)}
-                        />
+                    <form
+                      className="space-y-4"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        void handleDeleteAccount();
+                      }}
+                    >
+                      {deleteError ? (
+                        <div
+                          role="alert"
+                          className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                        >
+                          {deleteError}
+                        </div>
+                      ) : null}
 
+                      {user.hasPassword ? (
+                        <div className="space-y-1.5">
+                          <label htmlFor="delete-password" className="text-sm font-medium text-zinc-700">
+                            Confirmez avec votre mot de passe
+                          </label>
+                          <input
+                            id="delete-password"
+                            type="password"
+                            autoComplete="current-password"
+                            required
+                            className="w-full rounded-lg border bg-[#f3f3f5] px-4 py-2"
+                            value={deletePassword}
+                            onChange={(e) => setDeletePassword(e.target.value)}
+                          />
+                        </div>
+                      ) : (
+                        <div className="space-y-1.5">
+                          <label htmlFor="delete-confirmation" className="text-sm font-medium text-zinc-700">
+                            Écrivez <strong>SUPPRIMER</strong> pour confirmer
+                          </label>
+                          <input
+                            id="delete-confirmation"
+                            type="text"
+                            autoComplete="off"
+                            required
+                            className="w-full rounded-lg border bg-[#f3f3f5] px-4 py-2"
+                            value={deleteConfirmation}
+                            onChange={(e) => setDeleteConfirmation(e.target.value)}
+                          />
+                        </div>
+                      )}
+
+                      <DialogFooter className="gap-2 sm:gap-2">
+                        <DialogClose asChild>
+                          <Button type="button" variant="outline">
+                            Annuler
+                          </Button>
+                        </DialogClose>
                         <Button
+                          type="submit"
                           variant="destructive"
-                          onClick={handleDeleteAccount}
                           disabled={deleteLoading}
-                          className="w-full"
                         >
                           {deleteLoading
                             ? "Suppression..."
-                            : "Supprimer mon compte"}
+                            : "Supprimer définitivement"}
                         </Button>
-                      </div>
-                    </DialogHeader>
-
-                    <DialogFooter>
-                      <DialogClose asChild>
-                        <Button variant="destructive">Cancel</Button>
-                      </DialogClose>
-                    </DialogFooter>
+                      </DialogFooter>
+                    </form>
                   </DialogContent>
                 </Dialog>
               </CardContent>
