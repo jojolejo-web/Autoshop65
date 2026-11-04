@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { buildPageMetadata } from "@/lib/metadata";
+import { company } from "@/lib/company";
 import {
   catalogueCategories,
   getCategoryLabel,
@@ -30,7 +31,6 @@ export const metadata: Metadata = buildPageMetadata({
 
 const PHONE_DISPLAY = "05 62 95 21 75";
 const PHONE_HREF = "tel:0562952175";
-const SIRET = "991 339 029 00019";
 const MAPS_HREF =
   "https://www.google.com/maps/search/?api=1&query=86+Avenue+Fran%C3%A7ois+Mitterrand+65600+S%C3%A9m%C3%A9ac";
 
@@ -441,7 +441,10 @@ export default async function Home() {
             </div>
 
             <p className="mt-6 text-xs text-zinc-400">
-              Autoshop 65 · SIRET {SIRET} · 86 av. François Mitterrand, 65600 Séméac
+              {company.legalName} · SARL · SIRET {company.siret} ·{" "}
+              <Link href="/mentions-legales" className="underline underline-offset-2 hover:text-white">
+                Mentions légales
+              </Link>
             </p>
           </div>
         </div>

@@ -11,9 +11,8 @@ export const navLinks = [
   { label: "Contact", href: "/Contact", Icon: AiOutlineMail },
 ];
 export const navLinksFooter = [
-  { label: "Mention légales", href: "/Mention-légales" },
-  { label: "Politique de confidentialité", href: "/Pdc" },
-  { label: "CGV", href: "/CGV" },
-    { label: "Cookies", href: "/Cookies" },
-
-]
+  { label: "Mentions légales", href: "/mentions-legales" },
+  { label: "Politique de confidentialité", href: "/politique-de-confidentialite" },
+  { label: "CGV", href: "/cgv" },
+  { label: "Cookies", href: "/cookies" },
+];
