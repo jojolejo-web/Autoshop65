@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/metadata";
 import { confirmCartCheckout, findCart } from "./action";
 import CartPage from "./CartPage";
+import { getFavoriteProductIds } from "@/lib/favorites";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Panier",
@@ -30,7 +31,16 @@ export default async function Cart({ searchParams }: CartPageProps) {
     checkoutMessage = "Paiement annule";
   }
 
-  const cart = await findCart();
+  const [cart, favoriteIds] = await Promise.all([
+    findCart(),
+    getFavoriteProductIds(),
+  ]);
 
-  return <CartPage cart={cart} checkoutMessage={checkoutMessage} />;
+  return (
+    <CartPage
+      cart={cart}
+      checkoutMessage={checkoutMessage}
+      favoriteProductIds={[...favoriteIds]}
+    />
+  );
 }

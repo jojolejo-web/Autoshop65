@@ -75,6 +75,7 @@ export default async  function RootLayout({
 }>) {
     const session = await getServerSession(authOptions);
       let cartItemsCount = 0;
+      let favoritesCount = 0;
        if (session?.user?.email) {
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
@@ -84,8 +85,11 @@ export default async  function RootLayout({
             items: true,
           },
         },
+        _count: { select: { favoris: true } },
       },
     });
+
+    favoritesCount = user?._count.favoris ?? 0;
   
     cartItemsCount =
       user?.cart?.items.reduce((total, item) => total + item.quantity, 0) ?? 0;
@@ -100,7 +104,7 @@ export default async  function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SessionProvider>
-          <Navbar  cartItemsCount={cartItemsCount}/>
+          <Navbar cartItemsCount={cartItemsCount} favoritesCount={favoritesCount} />
           {children}
           <Footer/>
         </SessionProvider>

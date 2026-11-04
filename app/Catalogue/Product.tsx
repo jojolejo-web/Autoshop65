@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
@@ -6,10 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Heart, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import AddToCartAction from "./AddToCartAction";
+import FavoriteButton from "../components/FavoriteButton";
 
 type ProductProps = {
   product: {
@@ -21,6 +21,7 @@ type ProductProps = {
     stock: number;
     image: string | null;
   };
+  isFavorite?: boolean;
 };
 
 function formatPrice(amount: number) {
@@ -30,9 +31,9 @@ function formatPrice(amount: number) {
   }).format(amount / 100);
 }
 
-export default function Product({ product }: ProductProps) {
+export default function Product({ product, isFavorite = false }: ProductProps) {
   return (
-    <main>
+    <article>
       <Card className="rounded-none pt-0 ring-0">
         <Link href={`/Catalogue/${product.id}`} data-name={`catalogue-product-link-${product.id}`}>
           <div className="relative aspect-square w-full overflow-hidden">
@@ -56,9 +57,7 @@ export default function Product({ product }: ProductProps) {
         </Link>
 
         <CardFooter className="flex w-full gap-3">
-          <Button variant={"outline"} data-name={`catalogue-favorite-button-${product.id}`}>
-            <Heart />
-          </Button>
+          <FavoriteButton productId={product.id} initialIsFavorite={isFavorite} />
           <AddToCartAction
             productId={product.id}
             dataName={`catalogue-add-to-cart-${product.id}`}
@@ -71,6 +70,6 @@ export default function Product({ product }: ProductProps) {
           </AddToCartAction>
         </CardFooter>
       </Card>
-    </main>
+    </article>
   );
 }

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
   CheckCircle,
-  Heart,
   MailIcon,
   MapPin,
   Phone,
@@ -23,6 +22,8 @@ import { siteConfig } from "@/lib/metadata";
 import AddToCartAction from "../AddToCartAction";
 import { findProductId } from "../action";
 import ProductGallery from "./ProductGallery";
+import FavoriteButton from "../../components/FavoriteButton";
+import { getFavoriteProductIds } from "@/lib/favorites";
 
 type ProductPageProps = {
   params: Promise<{
@@ -91,7 +92,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
     redirect("/Catalogue");
   }
 
-  const product = await findProductId({ id });
+  const [product, favoriteIds] = await Promise.all([
+    findProductId({ id }),
+    getFavoriteProductIds(),
+  ]);
 
   if (!product) {
     redirect("/Catalogue");
@@ -156,13 +160,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </AddToCartAction>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <Button
-                variant="outline"
+              <FavoriteButton
+                productId={product.id}
+                initialIsFavorite={favoriteIds.has(product.id)}
+                appearance="button"
                 className="border-red-600 text-red-600 hover:bg-red-50"
-              >
-                <Heart className="mr-2 size-4" />
-                Favoris
-              </Button>
+              />
               <Button
                 variant="outline"
                 className="border-red-600 text-red-600 hover:bg-red-50"

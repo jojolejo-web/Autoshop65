@@ -6,16 +6,18 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Heart, X } from "lucide-react";
+import { X } from "lucide-react";
 import Image from "next/image";
 
 import CheckoutButton from "./CheckoutButton";
 import CartQuantitySelect from "./CartQuantitySelect";
 import { deleteToCart } from "./action";
+import FavoriteButton from "../components/FavoriteButton";
 
 type CartProps = {
   cart: CartType | null;
   checkoutMessage?: string | null;
+  favoriteProductIds?: number[];
 };
 
 type CartType = {
@@ -39,7 +41,11 @@ type ProductType = {
   image: string | null;
 };
 
-export default function CartPage({ cart, checkoutMessage }: CartProps) {
+export default function CartPage({
+  cart,
+  checkoutMessage,
+  favoriteProductIds = [],
+}: CartProps) {
   if (!cart) {
     return (
       <main className="min-h-screen px-4 py-10 dark:bg-black md:px-10 xl:px-20 2xl:px-50">
@@ -117,14 +123,13 @@ export default function CartPage({ cart, checkoutMessage }: CartProps) {
                         <CardDescription>
                           Ref : {item.product.reference || "Non renseignee"}
                         </CardDescription>
-                        <CardDescription>
-                          <Button
-                            variant="outline"
-                            className="h-auto border-0 p-0 hover:bg-transparent"
-                          >
-                            <Heart /> Ajouter a la liste de souhait
-                          </Button>
-                        </CardDescription>
+                        <div className="mt-1">
+                          <FavoriteButton
+                            productId={item.product.id}
+                            initialIsFavorite={favoriteProductIds.includes(item.product.id)}
+                            appearance="link"
+                          />
+                        </div>
                       </div>
                     </div>
 

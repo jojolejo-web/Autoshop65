@@ -7,6 +7,7 @@ import { countProducts, findProduct } from "./action";
 import CategorieCard from "./CategoriesCard";
 import { isCatalogueCategory, type CatalogueCategory } from "./categories";
 import Product from "./Product";
+import { getFavoriteProductIds } from "@/lib/favorites";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -72,12 +73,10 @@ export default async function Catalogue({ searchParams }: CatalogueProps) {
       ? Math.min(requestedPage, totalPages)
       : 1;
 
-  const products = await findProduct(
-    currentPage,
-    PRODUCTS_PER_PAGE,
-    search,
-    category,
-  );
+  const [products, favoriteIds] = await Promise.all([
+    findProduct(currentPage, PRODUCTS_PER_PAGE, search, category),
+    getFavoriteProductIds(),
+  ]);
   const visiblePages = getVisiblePages(currentPage, totalPages);
 
   return (
@@ -139,7 +138,11 @@ export default async function Catalogue({ searchParams }: CatalogueProps) {
               {products.length > 0 ? (
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
                   {products.map((product) => (
-                    <Product key={product.id} product={product} />
+                    <Product
+                      key={product.id}
+                      product={product}
+                      isFavorite={favoriteIds.has(product.id)}
+                    />
                   ))}
                 </div>
               ) : (

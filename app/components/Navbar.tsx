@@ -31,7 +31,13 @@ import {
 import { isAdminEmail } from "@/lib/admin-emails";
 import { navLinks } from "./nav-links";
 
-export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
+export default function Navbar({
+  cartItemsCount,
+  favoritesCount = 0,
+}: {
+  cartItemsCount: number;
+  favoritesCount?: number;
+}) {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -72,8 +78,19 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
         </div>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <Button variant="ghost" size="icon-lg" data-name="nav-favorites-button" aria-label="Favoris">
-            <Heart className="size-6" />
+          <Button asChild variant="ghost" size="icon-lg" className="relative">
+            <Link
+              href="/Favoris"
+              data-name="nav-favorites-button"
+              aria-label={favoritesCount > 0 ? `Favoris (${favoritesCount})` : "Favoris"}
+            >
+              <Heart className="size-6" aria-hidden="true" />
+              {favoritesCount > 0 ? (
+                <Badge className="absolute -right-1 -top-1 flex size-5 items-center justify-center bg-red-500 p-0 text-xs">
+                  {favoritesCount}
+                </Badge>
+              ) : null}
+            </Link>
           </Button>
 
           <DropdownMenu>
@@ -229,13 +246,19 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             <div className="border-t border-red-100 px-4 py-4">
               <div className="grid grid-cols-3 gap-3">
                 <Button
-                  type="button"
+                  asChild
                   variant="outline"
-                  data-name="nav-mobile-favorites-button"
-                  className="h-auto flex-col gap-2 border-red-100 py-3 text-zinc-700"
+                  className="relative h-auto w-full flex-col gap-2 border-red-100 py-3 text-zinc-700"
                 >
-                  <Heart className="size-5 text-red-500" />
-                  <span className="text-xs">Favoris</span>
+                  <Link href="/Favoris" onClick={closeMobileMenu} data-name="nav-mobile-favorites-button">
+                    <Heart className="size-5 text-red-500" aria-hidden="true" />
+                    <span className="text-xs">Favoris</span>
+                    {favoritesCount > 0 ? (
+                      <Badge className="absolute right-3 top-2 flex size-5 items-center justify-center bg-red-500 p-0 text-xs">
+                        {favoritesCount}
+                      </Badge>
+                    ) : null}
+                  </Link>
                 </Button>
 
                 <Button

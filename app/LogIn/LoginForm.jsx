@@ -20,6 +20,17 @@ import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
 
+// Page où revenir après connexion. Seuls les chemins internes sont acceptés
+// (pas de "//autre-site" ni d'URL complète) pour éviter les redirections piégées.
+function getSafeCallbackUrl() {
+  if (typeof window === "undefined") return "/";
+  const value = new URLSearchParams(window.location.search).get("callbackUrl");
+  if (!value || !value.startsWith("/") || value.startsWith("//") || value.startsWith("/\\")) {
+    return "/";
+  }
+  return value;
+}
+
 export function LoginForm() {
   const router = useRouter();
   const {
@@ -32,12 +43,13 @@ export function LoginForm() {
 
   async function onSubmit(data) {
     setError("");
-    
+    const callbackUrl = getSafeCallbackUrl();
+
     const result = await signIn("credentials", {
       email: data.email,
       password: data.password,
       redirect: false,
-      callbackUrl: "/",
+      callbackUrl,
     });
 
     if (result?.error) {
@@ -46,7 +58,8 @@ export function LoginForm() {
     }
 
     reset();
-    router.push(result?.url ?? "/");
+    router.push(callbackUrl);
+    router.refresh();
   }
 
   return (
@@ -102,7 +115,7 @@ export function LoginForm() {
             type="button"
             variant="outline"
             className="w-full"
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() => signIn("google", { callbackUrl: getSafeCallbackUrl() })}
           >
             Se connecter avec Google
           </Button>
