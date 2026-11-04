@@ -139,13 +139,13 @@ export default async function Home() {
   return (
     <main className="bg-white text-zinc-950">
       {/* ───────────── HAUT DE PAGE ───────────── */}
-      <section className="border-b border-zinc-200 bg-zinc-50">
+      <section className="bg-zinc-950 text-white">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:px-8 lg:py-20">
           <div>
             <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-              Pièces auto d&apos;occasion contrôlées, près de Tarbes
+              Pièces auto d&apos;occasion <span className="text-red-500">contrôlées</span>, près de Tarbes
             </h1>
-            <p className="mt-4 max-w-xl text-lg text-zinc-600">
+            <p className="mt-4 max-w-xl text-lg text-zinc-300">
               Des pièces démontées et vérifiées par notre équipe, moins chères
               que le neuf. Payez en ligne et récupérez votre commande au
               magasin de Séméac.
@@ -161,7 +161,7 @@ export default async function Home() {
               <label htmlFor="home-search" className="sr-only">
                 Rechercher une pièce
               </label>
-              <div className="flex flex-1 items-center gap-2 rounded-lg border border-zinc-300 bg-white px-3 focus-within:border-zinc-950 focus-within:ring-2 focus-within:ring-zinc-950/10">
+              <div className="flex flex-1 items-center gap-2 rounded-lg bg-white px-3 text-zinc-950 focus-within:ring-4 focus-within:ring-red-500/40">
                 <Search className="size-5 shrink-0 text-zinc-500" aria-hidden="true" />
                 <input
                   id="home-search"
@@ -180,10 +180,10 @@ export default async function Home() {
               </Button>
             </form>
 
-            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-700">
+            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-200">
               {guarantees.slice(0, 3).map(({ title }) => (
                 <li key={title} className="flex items-center gap-1.5">
-                  <Check className="size-4 text-emerald-700" aria-hidden="true" />
+                  <Check className="size-4 text-red-500" aria-hidden="true" />
                   {title}
                 </li>
               ))}
@@ -191,7 +191,7 @@ export default async function Home() {
           </div>
 
           {/* Fiche magasin : des infos réelles et vérifiables */}
-          <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <div className="rounded-xl border-t-4 border-red-600 bg-white p-6 text-zinc-950 shadow-xl">
             <div className="flex items-center gap-3">
               <Image
                 src="/logoAutoshop65.png"
@@ -208,7 +208,7 @@ export default async function Home() {
 
             <ul className="mt-6 space-y-4 text-sm">
               <li className="flex gap-3">
-                <MapPin className="mt-0.5 size-4 shrink-0 text-zinc-500" aria-hidden="true" />
+                <MapPin className="mt-0.5 size-4 shrink-0 text-red-600" aria-hidden="true" />
                 <div>
                   <p className="font-medium">86 av. François Mitterrand, 65600 Séméac</p>
                   <a
@@ -222,7 +222,7 @@ export default async function Home() {
                 </div>
               </li>
               <li className="flex gap-3">
-                <Clock className="mt-0.5 size-4 shrink-0 text-zinc-500" aria-hidden="true" />
+                <Clock className="mt-0.5 size-4 shrink-0 text-red-600" aria-hidden="true" />
                 <p>
                   <span className="font-medium">Lundi – vendredi, 8h – 18h</span>
                   <br />
@@ -230,20 +230,37 @@ export default async function Home() {
                 </p>
               </li>
               <li className="flex gap-3">
-                <Phone className="mt-0.5 size-4 shrink-0 text-zinc-500" aria-hidden="true" />
+                <Phone className="mt-0.5 size-4 shrink-0 text-red-600" aria-hidden="true" />
                 <a href={PHONE_HREF} className="font-medium hover:underline">
                   {PHONE_DISPLAY}
                 </a>
               </li>
             </ul>
 
-            <Button asChild variant="outline" className="mt-6 h-11 w-full rounded-lg">
+            <Button asChild className="mt-6 h-11 w-full rounded-lg bg-zinc-950 text-white hover:bg-zinc-800">
               <a href={PHONE_HREF}>
                 <Phone aria-hidden="true" /> Une question ? Appelez-nous
               </a>
             </Button>
           </div>
         </div>
+      </section>
+
+      {/* ───────────── ENGAGEMENTS ───────────── */}
+      <section aria-label="Nos engagements" className="bg-red-700 text-white">
+        <ul className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-5 px-4 py-6 sm:px-6 lg:grid-cols-4 lg:px-8">
+          {guarantees.map(({ title, text }) => (
+            <li key={title} className="flex gap-3">
+              <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white">
+                <Check className="size-4 text-red-700" aria-hidden="true" />
+              </span>
+              <div>
+                <p className="font-semibold">{title}</p>
+                <p className="text-sm text-red-100">{text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* ───────────── CATÉGORIES ───────────── */}
@@ -259,7 +276,7 @@ export default async function Home() {
               <li key={value}>
                 <Link
                   href={`/Catalogue?category=${value}&page=1`}
-                  className="group flex h-full flex-col rounded-xl border border-zinc-200 p-4 transition-colors hover:border-zinc-950"
+                  className="group flex h-full flex-col rounded-xl border border-zinc-200 border-l-4 border-l-red-600 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-zinc-950 hover:border-l-red-600 hover:shadow-md"
                 >
                   <span className="flex items-center justify-between font-semibold">
                     {label}
@@ -270,7 +287,7 @@ export default async function Home() {
                   </span>
                   <span className="mt-1 text-sm text-zinc-600">{categoryHints[value]}</span>
                   {count > 0 ? (
-                    <span className="mt-3 text-xs font-medium text-zinc-500">
+                    <span className="mt-3 text-xs font-semibold text-red-700">
                       {`${count} pièce${count > 1 ? "s" : ""} en stock`}
                     </span>
                   ) : null}
@@ -283,7 +300,7 @@ export default async function Home() {
 
       {/* ───────────── DERNIÈRES PIÈCES ───────────── */}
       {latest.length > 0 ? (
-        <section className="border-y border-zinc-200 bg-zinc-50">
+        <section className="bg-zinc-100">
           <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
             <SectionHeader
               title="Dernières pièces ajoutées"
@@ -297,7 +314,7 @@ export default async function Home() {
                   <li key={product.id}>
                     <Link
                       href={`/Catalogue/${product.id}`}
-                      className="group flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition-shadow hover:shadow-md"
+                      className="group flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-200 transition-shadow hover:shadow-lg hover:ring-zinc-950"
                     >
                       <div className="relative aspect-square bg-zinc-100">
                         {src ? (
@@ -322,7 +339,7 @@ export default async function Home() {
                         <h3 className="mt-1 line-clamp-2 flex-1 text-sm font-medium group-hover:underline sm:text-base">
                           {product.productName}
                         </h3>
-                        <p className="mt-3 text-lg font-semibold">
+                        <p className="mt-3 text-xl font-bold text-red-700">
                           {formatPrice(product.price)}
                         </p>
                         <p className="mt-1 flex items-center gap-1 text-xs text-emerald-700">
@@ -358,7 +375,7 @@ export default async function Home() {
             },
           ].map(({ title, text }, index) => (
             <li key={title} className="flex gap-4">
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-zinc-300 text-sm font-semibold">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-red-600 font-bold text-white">
                 {index + 1}
               </span>
               <div>
@@ -370,25 +387,10 @@ export default async function Home() {
         </ol>
       </section>
 
-      {/* ───────────── ENGAGEMENTS ───────────── */}
-      <section aria-label="Nos engagements" className="border-t border-zinc-200">
-        <ul className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 lg:grid-cols-4 lg:px-8">
-          {guarantees.map(({ title, text }) => (
-            <li key={title} className="flex gap-3">
-              <Check className="mt-0.5 size-5 shrink-0 text-emerald-700" aria-hidden="true" />
-              <div>
-                <p className="font-medium">{title}</p>
-                <p className="text-sm text-zinc-600">{text}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
       {/* ───────────── LE MAGASIN ───────────── */}
-      <section className="bg-zinc-50">
+      <section className="bg-zinc-950 text-white">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
-          <div className="relative aspect-4/3 overflow-hidden rounded-xl border border-zinc-200">
+          <div className="relative aspect-4/3 overflow-hidden rounded-xl">
             <Image
               src="/LockerLoin.webp"
               alt="La devanture du magasin Autoshop 65 à Séméac"
@@ -402,13 +404,13 @@ export default async function Home() {
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
               Un magasin physique à Séméac
             </h2>
-            <p className="mt-3 text-zinc-600">
+            <p className="mt-3 text-zinc-300">
               Autoshop 65 est un commerce local : vous récupérez votre pièce au
               comptoir et notre équipe répond à vos questions. Sur place, nous
               proposons aussi :
             </p>
 
-            <ul className="mt-6 divide-y divide-zinc-200 border-y border-zinc-200">
+            <ul className="mt-6 divide-y divide-white/15 border-y border-white/15">
               {[
                 { label: "Mécanique automobile", text: "Entretien et réparation", href: "/Contact" },
                 { label: "Station service", text: "Carburant", href: "/AboutPage" },
@@ -421,9 +423,9 @@ export default async function Home() {
                   >
                     <span>
                       <span className="font-medium group-hover:underline">{label}</span>
-                      <span className="ml-2 text-sm text-zinc-600">{text}</span>
+                      <span className="ml-2 text-sm text-zinc-400">{text}</span>
                     </span>
-                    <ChevronRight className="size-4 text-zinc-400 group-hover:text-zinc-950" aria-hidden="true" />
+                    <ChevronRight className="size-4 text-red-500 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                   </Link>
                 </li>
               ))}
@@ -433,12 +435,12 @@ export default async function Home() {
               <Button asChild size="lg" className="h-11 rounded-lg bg-red-600 text-white hover:bg-red-700">
                 <Link href="/Catalogue">Voir les pièces disponibles</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-11 rounded-lg">
+              <Button asChild size="lg" variant="outline" className="h-11 rounded-lg border-white bg-transparent text-white hover:bg-white hover:text-zinc-950">
                 <Link href="/Contact">Nous contacter</Link>
               </Button>
             </div>
 
-            <p className="mt-6 text-xs text-zinc-500">
+            <p className="mt-6 text-xs text-zinc-400">
               Autoshop 65 · SIRET {SIRET} · 86 av. François Mitterrand, 65600 Séméac
             </p>
           </div>
