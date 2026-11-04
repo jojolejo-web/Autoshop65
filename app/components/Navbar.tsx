@@ -46,7 +46,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   return (
     <header className="border-b bg-white">
       <nav className="flex items-center justify-between px-4 py-2 md:px-8 lg:px-12">
-        <Link href="/" onClick={closeMobileMenu} data-name="nav-logo-home">
+        <Link href="/" onClick={closeMobileMenu} data-name="nav-logo-home" aria-label="Accueil Autoshop65">
           <Image
             src="/logoAutoshop65.png"
             width={100}
@@ -62,7 +62,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
               href={href}
               data-name={`nav-link-${label.toLowerCase().replaceAll(" ", "-")}`}
               className={`flex items-center gap-2 hover:text-red-500 hover:underline ${
-                pathname === href ? "text-red-500" : ""
+                pathname === href ? "text-red-700" : ""
               }`}
             >
               <Icon size={18} />
@@ -72,13 +72,13 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
         </div>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <Button variant="ghost" size="icon-lg" data-name="nav-favorites-button">
+          <Button variant="ghost" size="icon-lg" data-name="nav-favorites-button" aria-label="Favoris">
             <Heart className="size-6" />
           </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon-lg" data-name="nav-account-menu-trigger">
+              <Button variant="ghost" size="icon-lg" data-name="nav-account-menu-trigger" aria-label="Mon compte">
                 <User className="size-6" />
               </Button>
             </DropdownMenuTrigger>
@@ -133,16 +133,20 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Link href="/Cart" data-name="nav-cart-link">
-            <Button variant="ghost" size="icon-lg" className="relative" data-name="nav-cart-button">
-              <ShoppingCart className="size-5" />
+          <Button asChild variant="ghost" size="icon-lg" className="relative">
+            <Link
+              href="/Cart"
+              data-name="nav-cart-link"
+              aria-label={cartItemsCount > 0 ? `Panier (${cartItemsCount} article${cartItemsCount > 1 ? "s" : ""})` : "Panier"}
+            >
+              <ShoppingCart className="size-5" aria-hidden="true" />
               {cartItemsCount > 0 ? (
                 <Badge className="absolute -right-1 -top-1 flex size-5 items-center justify-center bg-red-500 p-0 text-xs">
                   {cartItemsCount}
                 </Badge>
               ) : null}
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
 
         <Button
@@ -150,6 +154,8 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
           size="icon-lg"
           className="lg:hidden"
           data-name="nav-mobile-menu-open"
+          aria-label="Ouvrir le menu"
+          aria-expanded={isMobileMenuOpen}
           onClick={() => setIsMobileMenuOpen(true)}
         >
           <Menu className="size-6" />
@@ -169,7 +175,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
           <div className="absolute right-0 top-0 flex h-full w-[86%] max-w-sm flex-col bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-red-100 px-4 py-4">
               <p className="text-lg font-semibold text-red-700">Menu</p>
-              <Button variant="ghost" size="icon-lg" data-name="nav-mobile-menu-close" onClick={closeMobileMenu}>
+              <Button variant="ghost" size="icon-lg" data-name="nav-mobile-menu-close" aria-label="Fermer le menu" onClick={closeMobileMenu}>
                 <X className="size-6" />
               </Button>
             </div>
@@ -232,25 +238,23 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                   <span className="text-xs">Favoris</span>
                 </Button>
 
-                <Link href={accountHref} onClick={closeMobileMenu} data-name="nav-mobile-account-link">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    data-name="nav-mobile-account-button"
-                    className="h-auto w-full flex-col gap-2 border-red-100 py-3 text-zinc-700"
-                  >
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-auto w-full flex-col gap-2 border-red-100 py-3 text-zinc-700"
+                >
+                  <Link href={accountHref} onClick={closeMobileMenu} data-name="nav-mobile-account-link">
                     <User className="size-5 text-red-500" />
                     <span className="text-xs">Compte</span>
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
 
-                <Link href="/Cart" onClick={closeMobileMenu} data-name="nav-mobile-cart-link">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    data-name="nav-mobile-cart-button"
-                    className="relative h-auto w-full flex-col gap-2 border-red-100 py-3 text-zinc-700"
-                  >
+                <Button
+                  asChild
+                  variant="outline"
+                  className="relative h-auto w-full flex-col gap-2 border-red-100 py-3 text-zinc-700"
+                >
+                  <Link href="/Cart" onClick={closeMobileMenu} data-name="nav-mobile-cart-link">
                     <ShoppingCart className="size-5 text-red-500" />
                     <span className="text-xs">Panier</span>
                     {cartItemsCount > 0 ? (
@@ -258,8 +262,8 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                         {cartItemsCount}
                       </Badge>
                     ) : null}
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
 
               {session?.user ? (
@@ -276,16 +280,16 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
                   Se deconnecter
                 </Button>
               ) : (
-                <Link href="/LogIn" onClick={closeMobileMenu} data-name="nav-mobile-login-link">
-                  <Button
-                    variant="ghost"
-                    data-name="nav-mobile-login-button"
-                    className="mt-3 w-full justify-center text-zinc-600 hover:bg-red-50 hover:text-red-600"
-                  >
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="mt-3 w-full justify-center text-zinc-600 hover:bg-red-50 hover:text-red-600"
+                >
+                  <Link href="/LogIn" onClick={closeMobileMenu} data-name="nav-mobile-login-link">
                     <LogInIcon className="size-4" />
                     Se connecter
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               )}
             </div>
           </div>

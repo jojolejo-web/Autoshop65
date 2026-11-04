@@ -19,7 +19,7 @@ export default function Home() {
         <div className="container relative z-10 mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
             <Badge className="mb-6 bg-linear-to-r from-red-500 to-red-600 px-4 py-1 text-white hover:from-red-600 hover:to-red-700">
-              Économisez jusqu'à 70 % sur les pièces automobiles{" "}
+              Économisez jusqu&apos;à 70 % sur les pièces automobiles{" "}
             </Badge>
 
             <div className="flex flex-col items-center gap-4">
@@ -30,15 +30,16 @@ export default function Home() {
                 Faites des economies et roulez de maniere durable grace a des
                 pièces automobiles d&apos;occasion certifiées
               </p>
-              <Link href="/Catalogue">
-                <Button
-                  size="lg"
-                  className="bg-linear-to-r from-red-500 to-red-600 px-8 py-6 text-lg text-white hover:from-red-600 hover:to-red-700"
-                  variant="destructive"
-                >
-                  Explorer <ChevronRight />
-                </Button>
-              </Link>
+              <Button
+                asChild
+                size="lg"
+                className="bg-linear-to-r from-red-500 to-red-600 px-8 py-6 text-lg text-white hover:from-red-600 hover:to-red-700"
+                variant="destructive"
+              >
+                <Link href="/Catalogue">
+                  Explorer le catalogue <ChevronRight aria-hidden="true" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

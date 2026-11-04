@@ -74,7 +74,7 @@ export default function Footer() {
 
       <div className="bg-[#00000c] px-4 py-4 sm:px-6 lg:px-10 xl:px-16">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 text-center sm:text-left lg:flex-row lg:items-center lg:justify-between">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             © 2026 AUTOSHOP 65. Tous droits reserves.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-end">
